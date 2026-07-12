@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/Ejercito-Reforestador-Wallet/sw.js', { scope: '/Ejercito-Reforestador-Wallet/' })})}
