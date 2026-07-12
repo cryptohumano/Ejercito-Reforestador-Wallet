@@ -1,4 +1,4 @@
-# Desplegar Andino Wallet en GitHub Pages
+# Desplegar MST-Wallet en GitHub Pages
 
 ## Pasos para Desplegar la Rama `andino`
 

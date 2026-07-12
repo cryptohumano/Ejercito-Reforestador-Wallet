@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { useKeyringContext } from '@/contexts/KeyringContext'
+import { useActiveAccount } from '@/contexts/ActiveAccountContext'
 import SignatureCanvasComponent from './SignatureCanvas'
 import { FileKey, PenTool, Shield } from 'lucide-react'
 import type { Document } from '@/types/documents'
@@ -16,6 +17,7 @@ import { signDocumentWithSubstrate } from '@/services/signatures/SubstrateSigner
 import { addAutographicSignature } from '@/services/signatures/AutographicSigner'
 import { toast } from 'sonner'
 import Identicon from '@polkadot/react-identicon'
+import { shortenAddress } from '@/utils/address'
 
 export interface SignatureSelectorProps {
   document: Document
@@ -29,12 +31,20 @@ export default function SignatureSelector({
   onCancel,
 }: SignatureSelectorProps) {
   const { accounts, getAccount } = useKeyringContext()
-  // Inicializar con la cuenta del autor si existe, o la primera cuenta disponible
-  const defaultAccount = document.relatedAccount || accounts[0]?.address || ''
+  const { activeAccount } = useActiveAccount()
+  // Preferir cuenta activa → relatedAccount del doc → primera disponible
+  const defaultAccount =
+    activeAccount || document.relatedAccount || accounts[0]?.address || ''
   const [selectedAccount, setSelectedAccount] = useState<string>(defaultAccount)
   const [signatureImage, setSignatureImage] = useState<string | null>(null)
   const [isSigning, setIsSigning] = useState(false)
   const [activeTab, setActiveTab] = useState<'substrate' | 'autographic'>('substrate')
+
+  useEffect(() => {
+    if (activeAccount && !selectedAccount) {
+      setSelectedAccount(activeAccount)
+    }
+  }, [activeAccount, selectedAccount])
 
   // Cargar firma autográfica guardada si existe para la cuenta seleccionada
   useEffect(() => {
@@ -163,7 +173,7 @@ export default function SignatureSelector({
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="substrate" className="flex items-center gap-2">
               <FileKey className="h-4 w-4" />
-              Digital (Substrate)
+              Digital (Ethereum)
             </TabsTrigger>
             <TabsTrigger value="autographic" className="flex items-center gap-2">
               <PenTool className="h-4 w-4" />
@@ -185,7 +195,7 @@ export default function SignatureSelector({
                         <Identicon
                           value={selectedAccount}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <span>
                           {accounts.find(a => a.address === selectedAccount)?.meta?.name || 
@@ -202,14 +212,14 @@ export default function SignatureSelector({
                         <Identicon
                           value={account.address}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <div className="flex flex-col">
                           <span className="font-medium">
                             {account.meta?.name || 'Sin nombre'}
                           </span>
-                          <span className="text-xs text-muted-foreground">
-                            {account.address.slice(0, 8)}...{account.address.slice(-6)}
+                          <span className="text-xs text-muted-foreground font-mono">
+                            {shortenAddress(account.address, 6)}
                           </span>
                         </div>
                       </div>
@@ -255,7 +265,7 @@ export default function SignatureSelector({
                         <Identicon
                           value={selectedAccount}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <span>
                           {accounts.find(a => a.address === selectedAccount)?.meta?.name || 
@@ -272,7 +282,7 @@ export default function SignatureSelector({
                         <Identicon
                           value={account.address}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <span>{account.meta?.name || account.address}</span>
                       </div>

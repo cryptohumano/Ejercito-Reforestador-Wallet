@@ -21,7 +21,6 @@ import {
 } from '@/utils/transactionStorage'
 import { formatBalanceForDisplay } from '@/utils/balance'
 import { useKeyringContext } from '@/contexts/KeyringContext'
-import { useActiveAccount } from '@/contexts/ActiveAccountContext'
 import { 
   Send, 
   ArrowRight,
@@ -385,7 +384,7 @@ export default function Transactions() {
                           <Identicon
                             value={tx.accountAddress}
                             size={40}
-                            theme="polkadot"
+                            theme="ethereum"
                           />
                         </Avatar>
                         <div className="flex-1 min-w-0">

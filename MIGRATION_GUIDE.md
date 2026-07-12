@@ -3,7 +3,7 @@
 ## Estado Actual
 
 ✅ **Commit realizado en rama `andino`**
-- Todos los cambios de Andino Wallet están commiteados
+- Todos los cambios de MST-Wallet están commiteados
 - 41 archivos modificados/creados
 - 9,074 líneas agregadas
 
@@ -24,16 +24,16 @@ git push -u origin andino
 
 **Desventajas:**
 - Repositorio público (si el original es público)
-- Mezcla código de Aura PWA y Andino Wallet
+- Mezcla código de Aura PWA y MST-Wallet
 
 ### Opción 2: Nuevo Repositorio Privado (Recomendado)
 
-Crear un nuevo repositorio privado para Andino Wallet:
+Crear un nuevo repositorio privado para MST-Wallet:
 
 #### Paso 1: Crear repositorio en GitHub/GitLab
 
 1. Ve a GitHub/GitLab y crea un nuevo repositorio privado
-   - Nombre sugerido: `andino-wallet-pwa`
+   - Nombre sugerido: `MST-Wallet`
    - **IMPORTANTE**: Configúralo como **privado**
 
 2. Copia la URL del repositorio (HTTPS o SSH)
@@ -42,14 +42,14 @@ Crear un nuevo repositorio privado para Andino Wallet:
 
 ```bash
 # Ejecutar script de migración
-./scripts/migrate-to-new-repo.sh https://github.com/tu-usuario/andino-wallet-pwa.git
+./scripts/migrate-to-new-repo.sh https://github.com/tu-usuario/MST-Wallet.git
 ```
 
 #### Paso 3: Configurar como repositorio principal (opcional)
 
 ```bash
 # Cambiar remote por defecto
-git remote set-url origin https://github.com/tu-usuario/andino-wallet-pwa.git
+git remote set-url origin https://github.com/tu-usuario/MST-Wallet.git
 
 # Eliminar remote antiguo (opcional)
 git remote remove andino
@@ -61,14 +61,14 @@ Actualizar el nombre del proyecto en `package.json`:
 
 ```json
 {
-  "name": "andino-wallet-pwa",
-  "description": "Andino Wallet - PWA para bitácoras de montañismo y expediciones"
+  "name": "MST-Wallet",
+  "description": "MST-Wallet - PWA para bitácoras de montañismo y expediciones"
 }
 ```
 
 **Ventajas:**
 - Repositorio privado y separado
-- Código específico de Andino Wallet
+- Código específico de MST-Wallet
 - Mejor organización
 - Control de acceso independiente
 
@@ -80,7 +80,7 @@ Actualizar el nombre del proyecto en `package.json`:
 **Recomendamos la Opción 2 (Nuevo Repositorio Privado)** porque:
 
 1. **Privacidad**: Los datos de expediciones y avisos de salida son sensibles
-2. **Separación**: Andino Wallet es un proyecto específico diferente de Aura PWA
+2. **Separación**: MST-Wallet es un proyecto específico diferente de Aura PWA
 3. **Control**: Puedes gestionar permisos y colaboradores independientemente
 4. **Historia**: Puedes mantener la historia del fork si lo necesitas
 
@@ -104,7 +104,7 @@ git merge upstream/documents
 - [ ] Repositorio creado y configurado como privado
 - [ ] Código migrado exitosamente
 - [ ] `package.json` actualizado con nuevo nombre
-- [ ] README.md actualizado para Andino Wallet
+- [ ] README.md actualizado para MST-Wallet
 - [ ] GitHub Actions/CI actualizado (si aplica)
 - [ ] Variables de entorno/configuración revisadas
 - [ ] Colaboradores agregados al nuevo repositorio

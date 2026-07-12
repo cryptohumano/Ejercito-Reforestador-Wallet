@@ -30,7 +30,7 @@ function App() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">Andino Wallet</h1>
+              <h1 className="text-3xl font-bold font-brand uppercase">Ejército Reforestador</h1>
               <p className="text-muted-foreground mt-1">
                 Explora las capacidades de Dedot y Polkadot SDK
               </p>

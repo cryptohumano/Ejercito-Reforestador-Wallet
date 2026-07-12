@@ -125,8 +125,8 @@ export default function Documents() {
           subject: 'Prueba',
           keywords: ['test', 'prueba'],
           language: 'es',
-          creator: 'Andino Wallet',
-          producer: 'Andino Wallet PDF Generator',
+          creator: 'Ejército Reforestador',
+          producer: 'Ejército Reforestador PDF',
           createdAt: new Date().toISOString(),
         },
         pdfContent: {
@@ -135,7 +135,7 @@ export default function Documents() {
           sections: [
             {
               title: 'Información',
-              content: 'Este es un documento PDF de prueba generado por Andino Wallet. El sistema de documentos está funcionando correctamente.',
+              content: 'Este es un documento PDF de prueba generado por Ejército Reforestador. El sistema de documentos está funcionando correctamente.',
             },
             {
               title: 'Detalles del Autor',
@@ -158,7 +158,7 @@ export default function Documents() {
               isTable: true,
             },
           ],
-          footer: `Generado el ${new Date().toLocaleDateString('es-ES')} por ${authorName} usando Aura Wallet`,
+          footer: `Generado el ${new Date().toLocaleDateString('es-ES')} por ${authorName} usando Ejército Reforestador`,
         },
         relatedAccount: selectedAccount,
       })
@@ -306,7 +306,7 @@ export default function Documents() {
                           <Identicon
                             value={selectedAccount}
                             size={16}
-                            theme="polkadot"
+                            theme="ethereum"
                           />
                           <span>{getAccountDisplayName(selectedAccount)}</span>
                         </div>
@@ -320,7 +320,7 @@ export default function Documents() {
                           <Identicon
                             value={account.address}
                             size={16}
-                            theme="polkadot"
+                            theme="ethereum"
                           />
                           <div className="flex flex-col">
                             <span className="font-medium">
@@ -478,7 +478,7 @@ export default function Documents() {
                                   <Identicon
                                     value={selectedAccount}
                                     size={16}
-                                    theme="polkadot"
+                                    theme="ethereum"
                                   />
                                   <span>{getAccountDisplayName(selectedAccount)}</span>
                                 </div>
@@ -492,7 +492,7 @@ export default function Documents() {
                                   <Identicon
                                     value={account.address}
                                     size={16}
-                                    theme="polkadot"
+                                    theme="ethereum"
                                   />
                                   <div className="flex flex-col">
                                     <span className="font-medium">

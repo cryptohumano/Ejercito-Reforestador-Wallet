@@ -28,7 +28,6 @@ import type { EmergencyRemarkData } from '@/types/emergencies'
 import Identicon from '@polkadot/react-identicon'
 import { Avatar } from '@/components/ui/avatar'
 import { toast } from 'sonner'
-import { formatBalanceForDisplay } from '@/utils/balance'
 
 export default function TransactionDetail() {
   const { hash } = useParams<{ hash: string }>()
@@ -345,7 +344,7 @@ export default function TransactionDetail() {
                 <Identicon
                   value={transaction.accountAddress}
                   size={32}
-                  theme="polkadot"
+                  theme="ethereum"
                 />
               </Avatar>
               <div>

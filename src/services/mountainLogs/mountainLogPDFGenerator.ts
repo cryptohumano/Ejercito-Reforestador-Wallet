@@ -39,11 +39,11 @@ export async function generateMountainLogPDF(
   // Configurar metadata del PDF
   pdf.setProperties({
     title: log.title || 'Bitácora de Montañismo',
-    author: authorName || log.relatedAccount || 'Andino Wallet',
+    author: authorName || log.relatedAccount || 'Ejército Reforestador',
     subject: 'Bitácora de Montañismo',
     keywords: ['montañismo', 'bitácora', 'expedición', log.mountainName || '', log.location || ''].filter(Boolean).join(', '),
-    creator: 'Andino Wallet',
-    producer: 'Andino Wallet PDF Generator',
+    creator: 'Ejército Reforestador',
+    producer: 'Ejército Reforestador PDF',
   })
 
   // Inyectar metadata GPS si hay ubicación inicial
@@ -705,7 +705,7 @@ export async function generateMountainLogPDF(
     pdf.setFontSize(8)
     pdf.setFont('helvetica', 'italic')
     pdf.text(
-      `Generado el ${new Date().toLocaleDateString('es-ES')} por Andino Wallet - Página ${i} de ${pageCount}`,
+      `Generado el ${new Date().toLocaleDateString('es-ES')} por Ejército Reforestador - Página ${i} de ${pageCount}`,
       pageWidth / 2,
       pageHeight - 10,
       { align: 'center' }
@@ -720,7 +720,7 @@ export async function generateMountainLogPDF(
   
   // Establecer metadatos usando pdf-lib (esto asegura que se guarden correctamente)
   pdfDoc.setTitle(log.title || 'Bitácora de Montañismo')
-  pdfDoc.setAuthor(authorName || log.relatedAccount || 'Andino Wallet')
+  pdfDoc.setAuthor(authorName || log.relatedAccount || 'Ejército Reforestador')
   
   // Agregar información de la cuenta Substrate en el Subject (para metadatos X.509)
   const subjectParts = ['Bitácora de Montañismo']
@@ -729,8 +729,8 @@ export async function generateMountainLogPDF(
   }
   pdfDoc.setSubject(subjectParts.join(' | '))
   
-  pdfDoc.setCreator('Andino Wallet')
-  pdfDoc.setProducer('Andino Wallet PDF Generator')
+  pdfDoc.setCreator('Ejército Reforestador')
+  pdfDoc.setProducer('Ejército Reforestador PDF')
   
   // Agregar keywords incluyendo información de la cuenta Substrate
   const keywords = [

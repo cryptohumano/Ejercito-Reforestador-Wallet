@@ -7,40 +7,39 @@
 :root {
   --radius: 0.5rem;
 
-  /* Light Mode - Colores con tinte azul según estándares UI/UX */
-  --background: 217 91% 98%;        /* Azul muy claro con tinte */
-  --foreground: 222.2 84% 4.9%;
-  --card: 217 91% 99%;              /* Card ligeramente más claro que background */
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 217 91% 99%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 200 96% 38%;           /* Azul: #0477BF */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 217 91% 97%;             /* Muted con tinte azul */
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 340 88% 52%;            /* Rosa/Rojo: #F21667 */
-  --accent-foreground: 0 0% 100%;   /* Blanco para contraste */
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217 33% 85%;            /* Border visible pero suave */
-  --input: 217 33% 85%;
-  --ring: 222.2 84% 4.9%;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
-  /* Sidebar variables */
-  --sidebar: 217 91% 99%;
-  --sidebar-foreground: 222.2 84% 4.9%;
-  --sidebar-primary: 200 96% 38%;
-  --sidebar-primary-foreground: 210 40% 98%;
-  --sidebar-accent: 217 91% 97%;
-  --sidebar-accent-foreground: 222.2 47.4% 11.2%;
-  --sidebar-border: 217 33% 85%;
-  --sidebar-ring: 222.2 84% 4.9%;
+  /* Ejército Reforestador — light (eco-militar) */
+  --background: 140 35% 97%;
+  --foreground: 155 56% 7%;
+  --card: 0 0% 100%;
+  --card-foreground: 155 56% 7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 155 56% 7%;
+  --primary: 152 40% 30%;           /* #2D6A4F */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 140 25% 92%;
+  --secondary-foreground: 152 43% 18%;
+  --muted: 129 30% 92%;
+  --muted-foreground: 152 15% 38%;
+  --accent: 152 42% 42%;            /* growth green */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 152 18% 82%;
+  --input: 152 18% 82%;
+  --ring: 152 40% 30%;
+  --chart-1: 152 40% 30%;
+  --chart-2: 145 43% 55%;
+  --chart-3: 155 56% 14%;
+  --chart-4: 40 45% 55%;
+  --chart-5: 25 50% 40%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 155 56% 7%;
+  --sidebar-primary: 152 40% 30%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 129 30% 92%;
+  --sidebar-accent-foreground: 152 43% 18%;
+  --sidebar-border: 152 18% 82%;
+  --sidebar-ring: 152 40% 30%;
 }
 
 * {
@@ -50,9 +49,14 @@
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
   overflow-x: hidden;
   max-width: 100vw;
+}
+
+h1, h2, h3, .font-brand {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  letter-spacing: 0.02em;
 }
 
 /* Safe area insets para dispositivos con notch */
@@ -63,41 +67,39 @@ body {
   }
 }
 
-/* Dark Mode - Variables usando HSL (convertidas desde oklch para consistencia) */
 .dark {
-  --background: 222.2 47.4% 11.2%;  /* Azul muy oscuro */
-  --foreground: 210 40% 98%;
-  --card: 217 33% 19%;              /* Card más claro que background */
-  --card-foreground: 210 40% 98%;
-  --popover: 217 33% 19%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 195 96% 48%;          /* Azul claro: #05C7F2 */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217 20% 25%;             /* Muted oscuro */
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 340 88% 52%;            /* Rosa/Rojo: #F21667 */
-  --accent-foreground: 0 0% 100%;   /* Blanco para contraste */
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217 30% 30%;            /* Border visible en dark mode */
-  --input: 217 30% 30%;
-  --ring: 212.7 26.8% 83.9%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
-  /* Sidebar variables para dark mode */
-  --sidebar: 217 33% 19%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 195 96% 48%;
-  --sidebar-primary-foreground: 210 40% 98%;
-  --sidebar-accent: 217 20% 25%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 217 30% 30%;
-  --sidebar-ring: 212.7 26.8% 83.9%;
+  --background: 155 56% 7%;         /* #081C15 */
+  --foreground: 129 53% 90%;        /* #D8F3DC */
+  --card: 152 43% 12%;
+  --card-foreground: 129 53% 90%;
+  --popover: 152 43% 12%;
+  --popover-foreground: 129 53% 90%;
+  --primary: 152 42% 52%;           /* #52B788 */
+  --primary-foreground: 155 56% 7%;
+  --secondary: 152 30% 16%;
+  --secondary-foreground: 129 53% 90%;
+  --muted: 152 28% 14%;
+  --muted-foreground: 145 25% 65%;
+  --accent: 152 39% 41%;            /* #40916C */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62% 42%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 152 25% 22%;
+  --input: 152 25% 22%;
+  --ring: 152 42% 52%;
+  --chart-1: 152 42% 52%;
+  --chart-2: 145 43% 71%;
+  --chart-3: 40 45% 55%;
+  --chart-4: 25 50% 45%;
+  --chart-5: 200 40% 50%;
+  --sidebar: 152 43% 10%;
+  --sidebar-foreground: 129 53% 90%;
+  --sidebar-primary: 152 42% 52%;
+  --sidebar-primary-foreground: 155 56% 7%;
+  --sidebar-accent: 152 28% 14%;
+  --sidebar-accent-foreground: 129 53% 90%;
+  --sidebar-border: 152 25% 22%;
+  --sidebar-ring: 152 42% 52%;
 }
 
 /* Exponer variables a Tailwind CSS v4 */
@@ -121,13 +123,11 @@ body {
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  /* Charts */
   --color-chart-1: hsl(var(--chart-1));
   --color-chart-2: hsl(var(--chart-2));
   --color-chart-3: hsl(var(--chart-3));
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
-  /* Sidebar */
   --color-sidebar: hsl(var(--sidebar));
   --color-sidebar-foreground: hsl(var(--sidebar-foreground));
   --color-sidebar-primary: hsl(var(--sidebar-primary));
@@ -136,7 +136,6 @@ body {
   --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
-  /* Radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -144,6 +143,8 @@ body {
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --font-brand: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Source Sans 3", "Segoe UI", sans-serif;
 }
 
 @layer base {
@@ -164,13 +165,11 @@ body {
     @apply bg-background text-foreground;
   }
   
-  /* Mejoras de scroll para móvil */
   html {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
   
-  /* Asegurar que el contenido no quede oculto detrás del BottomNav en móvil */
   @media (max-width: 768px) {
     body {
       padding-bottom: env(safe-area-inset-bottom);
@@ -178,21 +177,102 @@ body {
   }
 }
 
-/* Estilos para Header con glass effect */
+/* Textura topográfica sutil (misión / empty states) */
+.topo-bg {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(152 40% 30% / 0.12), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, hsl(152 42% 42% / 0.08), transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 11px,
+      hsl(152 25% 40% / 0.03) 11px,
+      hsl(152 25% 40% / 0.03) 12px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 11px,
+      hsl(152 25% 40% / 0.03) 11px,
+      hsl(152 25% 40% / 0.03) 12px
+    );
+}
+
+.dark .topo-bg {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(152 42% 52% / 0.15), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, hsl(152 40% 30% / 0.2), transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 11px,
+      hsl(129 53% 90% / 0.03) 11px,
+      hsl(129 53% 90% / 0.03) 12px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 11px,
+      hsl(129 53% 90% / 0.03) 11px,
+      hsl(129 53% 90% / 0.03) 12px
+    );
+}
+
+.brand-gradient-text {
+  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 45%, #52B788 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark .brand-gradient-text {
+  background: linear-gradient(135deg, #D8F3DC 0%, #95D5B2 40%, #52B788 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes sprout-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(152 40% 30% / 0.35); }
+  50% { box-shadow: 0 0 0 10px hsl(152 40% 30% / 0); }
+}
+
+.animate-sprout {
+  animation: sprout-in 0.55s ease-out both;
+}
+
+.animate-sprout-delay-1 { animation-delay: 0.08s; }
+.animate-sprout-delay-2 { animation-delay: 0.16s; }
+.animate-sprout-delay-3 { animation-delay: 0.24s; }
+
+.mission-pulse {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
 .glass-header {
   background-color: hsl(var(--background) / 0.95);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* Estilos para Sheet con background sólido */
 .sheet-solid-bg {
   background-color: hsl(var(--card)) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-/* Asegurar que los diálogos tengan fondo sólido y correcto */
 [data-radix-dialog-content] {
   background-color: hsl(var(--card)) !important;
   color: hsl(var(--card-foreground)) !important;
@@ -204,7 +284,6 @@ body {
   -webkit-backdrop-filter: blur(4px) !important;
 }
 
-/* Asegurar que los mapas de Leaflet no estén por encima de otros elementos */
 .leaflet-container {
   position: relative !important;
   z-index: 0 !important;
@@ -218,13 +297,11 @@ body {
   z-index: 2 !important;
 }
 
-/* Asegurar que los dropdowns tengan fondo sólido */
 [data-radix-dropdown-menu-content] {
   background-color: hsl(var(--popover)) !important;
   color: hsl(var(--popover-foreground)) !important;
 }
 
-/* Asegurar que los botones ghost tengan fondo visible */
 button[class*="bg-muted"],
 .theme-toggle-button {
   background-color: hsl(var(--muted)) !important;
@@ -234,13 +311,11 @@ button[class*="bg-muted"],
   background-color: hsl(var(--muted) / 0.8) !important;
 }
 
-/* Asegurar que todos los elementos con bg-background tengan fondo sólido */
 .bg-background,
 [class*="bg-background"]:not([class*="/"]):not([class*="opacity"]) {
   background-color: hsl(var(--background)) !important;
 }
 
-/* Asegurar que los headers sticky tengan fondo sólido */
 .sticky.bg-background,
 .sticky[class*="bg-background"]:not([class*="/"]) {
   background-color: hsl(var(--background)) !important;
@@ -248,27 +323,22 @@ button[class*="bg-muted"],
   -webkit-backdrop-filter: none !important;
 }
 
-/* FABs con colores sólidos y visibles siempre */
 .fab-emergency,
 .fab-navigation {
   transition: opacity 0.3s ease, transform 0.3s ease;
-  /* Asegurar que no haya padding o margin que afecte la alineación */
   padding: 0 !important;
   margin: 0 !important;
   display: flex !important;
   align-items: center;
   justify-content: center;
-  /* Forzar que esté fuera del flujo y visible */
   position: fixed !important;
   z-index: 100 !important;
   visibility: visible !important;
   opacity: 1 !important;
-  /* Asegurar que no esté oculto por overflow de contenedores padres */
   contain: none !important;
   isolation: isolate;
 }
 
-/* Estado dim para FABs cuando hay expansión */
 .fab-dim {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -283,7 +353,6 @@ button[class*="bg-muted"],
   transform: scale(1.05);
 }
 
-/* Asegurar que los FABs sean visibles cuando se necesita interactuar */
 .fab-dim-active:active {
   opacity: 1;
 }
@@ -326,22 +395,22 @@ button[class*="bg-muted"],
   transform: scale(0.95);
 }
 
-/* FAB de navegación - Azul sólido y visible (derecha) */
+/* FAB de navegación - Verde sólido y visible (derecha) */
 .fab-navigation button {
   background-color: hsl(var(--primary)) !important;
   color: hsl(var(--primary-foreground)) !important;
   border: 2px solid hsl(var(--primary) / 0.4) !important;
   box-shadow: 
-    0 4px 14px 0 rgba(59, 130, 246, 0.4),
-    0 0 0 0 rgba(59, 130, 246, 0.1),
+    0 4px 14px 0 hsl(152 40% 30% / 0.4),
+    0 0 0 0 hsl(152 40% 30% / 0.1),
     0 2px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 .fab-navigation button:hover {
   background-color: hsl(var(--primary) / 0.95) !important;
   box-shadow: 
-    0 6px 20px 0 rgba(59, 130, 246, 0.5),
-    0 0 0 4px rgba(59, 130, 246, 0.15),
+    0 6px 20px 0 hsl(152 40% 30% / 0.5),
+    0 0 0 4px hsl(152 40% 30% / 0.15),
     0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
@@ -364,8 +433,8 @@ button[class*="bg-muted"],
   background-color: hsl(var(--primary)) !important;
   border-color: hsl(var(--primary) / 0.5) !important;
   box-shadow: 
-    0 4px 14px 0 rgba(59, 130, 246, 0.5),
-    0 0 0 0 rgba(59, 130, 246, 0.2),
+    0 4px 14px 0 hsl(152 40% 30% / 0.5),
+    0 0 0 0 hsl(152 40% 30% / 0.2),
     0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 

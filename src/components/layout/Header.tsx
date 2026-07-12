@@ -42,9 +42,8 @@ export function Header() {
   const context = useContext(NetworkContext)
   const [logoError, setLogoError] = useState(false)
   // Usar BASE_URL de Vite para rutas correctas en producción (GitHub Pages)
-  // En desarrollo será '/', en producción será '/andino-wallet-pwa/'
   const baseUrl = import.meta.env.BASE_URL || '/'
-  const logoPath = `${baseUrl}web-app-manifest-192x192.png`
+  const logoPath = `${baseUrl}logo-ui.png`
   
   // Si el contexto no está disponible, renderizar un header simplificado
   if (!context) {
@@ -58,7 +57,7 @@ export function Header() {
                   {!logoError ? (
                     <img 
                       src={logoPath}
-                      alt="Andino Wallet" 
+                      alt="Ejército Reforestador" 
                       className="w-full h-full object-cover"
                       onError={() => setLogoError(true)}
                     />
@@ -66,6 +65,9 @@ export function Header() {
                     <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   )}
                 </div>
+                <span className="hidden sm:inline font-brand text-sm font-bold uppercase tracking-wide text-primary truncate max-w-[10rem]">
+                  Ejército Reforestador
+                </span>
               </div>
             </div>
             <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
@@ -89,12 +91,12 @@ export function Header() {
       <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4 max-w-full overflow-hidden">
         <div className="flex items-center justify-between gap-2 min-w-0">
           <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0 ring-1 ring-primary/20">
                 {!logoError ? (
                   <img 
                     src={logoPath}
-                    alt="Andino Wallet" 
+                    alt="Ejército Reforestador" 
                     className="w-full h-full object-cover"
                     onError={() => setLogoError(true)}
                   />
@@ -102,6 +104,9 @@ export function Header() {
                   <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 )}
               </div>
+              <span className="hidden sm:inline font-brand text-base font-bold uppercase tracking-wide text-primary truncate">
+                Ejército Reforestador
+              </span>
             </div>
             <div className="hidden sm:block flex-shrink-0">
               <NetworkSwitcher

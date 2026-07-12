@@ -1,8 +1,8 @@
-# Plan de Migración UI/UX - Andino Wallet
+# Plan de Migración UI/UX - MST-Wallet
 
 ## 📋 Resumen
 
-Este documento detalla el plan para aplicar los estándares de UI/UX de Emergency Wallet a Andino Wallet, basado en el documento [UI_UX_STANDARDS.md](https://raw.githubusercontent.com/cryptohumano/emergency-wallet-pwa/feature/ui-improvements/docs/UI_UX_STANDARDS.md).
+Este documento detalla el plan para aplicar los estándares de UI/UX de Emergency Wallet a MST-Wallet, basado en el documento [UI_UX_STANDARDS.md](https://raw.githubusercontent.com/cryptohumano/emergency-wallet-pwa/feature/ui-improvements/docs/UI_UX_STANDARDS.md).
 
 ## 🎯 Objetivos
 
@@ -129,7 +129,7 @@ Desktop: p-6, gap-4, space-y-6
 - [ ] Actualizar sombras
 
 ### Fase 2: Header
-- [ ] Reemplazar texto "Andino Wallet" con logo icono
+- [ ] Reemplazar texto "MST-Wallet" con logo icono
 - [ ] Reorganizar elementos según estándar
 - [ ] Agregar BalanceDisplay (desktop)
 - [ ] Agregar ThemeToggle (desktop)

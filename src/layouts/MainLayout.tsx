@@ -12,7 +12,7 @@ export default function MainLayout() {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col topo-bg">
         {isUnlocked && <Header />}
         <div className="flex flex-1 overflow-hidden">
           {!isMobile && isUnlocked && <Sidebar />}

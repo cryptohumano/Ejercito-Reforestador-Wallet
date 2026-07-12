@@ -68,7 +68,7 @@ export default function Identity() {
               {accounts.map((account) => (
                 <SelectItem key={account.address} value={account.address}>
                   <div className="flex items-center gap-2">
-                    <Identicon value={account.address} size={20} theme="polkadot" />
+                    <Identicon value={account.address} size={20} theme="ethereum" />
                     <span>{account.meta.name || 'Sin nombre'}</span>
                     <span className="text-xs text-muted-foreground">
                       ({formatAddress(account.address)})
@@ -135,7 +135,7 @@ export default function Identity() {
                     <div className="space-y-4">
                       <div className="flex items-center gap-4 p-4 border rounded-lg">
                         <Avatar className="h-16 w-16">
-                          <Identicon value={selectedAddress} size={64} theme="polkadot" />
+                          <Identicon value={selectedAddress} size={64} theme="ethereum" />
                         </Avatar>
                         <div className="flex-1">
                           <h3 className="text-xl font-semibold mb-1">

@@ -318,7 +318,7 @@ export default function Contacts() {
                       <Identicon
                         value={contact.address}
                         size={40}
-                        theme="polkadot"
+                        theme="ethereum"
                       />
                     </Avatar>
                     <div className="flex-1 min-w-0">

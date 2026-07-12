@@ -18,6 +18,7 @@ export interface StoredTransaction {
   txHash: string // Hash de la transacción
   blockHash?: string // Hash del bloque donde se incluyó
   blockNumber?: number // Número del bloque
+  extrinsicIndex?: number // Índice en bloque (compat / emergencias)
   nonce?: number // Nonce usado
   tip?: string // Tip en plancks (como string)
   fee?: string // Fee pagado en plancks (como string)

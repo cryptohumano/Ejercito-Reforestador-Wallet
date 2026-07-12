@@ -23,7 +23,7 @@ Crear una PWA (Progressive Web App) mínima enfocada exclusivamente en el sistem
 
 **Adaptación de Bitácoras a Reportes de Emergencia**:
 - 🔄 **Bitácoras → Reportes**: La lógica de bitácoras de montañismo se adapta a reportes de emergencias
-- 🔄 **Mantener estructura**: Se mantiene mucha lógica de Aura/Andino Wallet pero adaptada a servicios de emergencia
+- 🔄 **Mantener estructura**: Se mantiene mucha lógica de Aura/MST-Wallet pero adaptada a servicios de emergencia
 - 🔄 **Contexto de emergencia**: Los reportes incluyen contexto similar a bitácoras (ubicación, fecha, participantes, etc.)
 
 **Futuro: Integración con Lumo Backend**:
@@ -1334,7 +1334,7 @@ const filterEmergency = (emergencyData: EmergencyRemarkData, activeAccount: stri
 
 **Adaptación de Bitácoras**:
 - 🔄 **Bitácoras → Reportes**: Adaptar lógica de bitácoras de montañismo a reportes de emergencias
-- 🔄 **Mantener estructura**: Conservar mucha lógica de Aura/Andino Wallet pero adaptada
+- 🔄 **Mantener estructura**: Conservar mucha lógica de Aura/MST-Wallet pero adaptada
 - 🔄 **Componentes adaptados**: `MountainLogDetail` → `EmergencyReportDetail`, etc.
 
 **Futuro: Integración con Lumo Backend**:

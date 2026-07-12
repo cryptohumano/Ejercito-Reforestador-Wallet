@@ -62,10 +62,8 @@ const getBase = () => {
   }
   
   // Fallback: si no hay GITHUB_REPOSITORY pero estamos en build, usar el nombre del repo
-  // El repositorio es andino-wallet-pwa según el package.json
   // Hardcodeamos el base path para GitHub Pages
-  // Cambiar esto si el nombre del repositorio cambia
-  return '/andino-wallet-pwa/'
+  return '/Ejercito-Reforestador-Wallet/'
 }
 
 // Calcular el base path dinámicamente (se recalcula cada vez que se accede)
@@ -82,7 +80,7 @@ console.log('[Vite Config] VITE_BASE_URL:', process.env.VITE_BASE_URL)
 if (process.env.NODE_ENV === 'production' && (!basePath || basePath === '/')) {
   console.warn('[Vite Config] ⚠️ Base path es "/". Si estás desplegando en GitHub Pages, esto podría causar problemas.')
   console.warn('[Vite Config] GITHUB_REPOSITORY debería estar configurado en el workflow de GitHub Actions.')
-  console.warn('[Vite Config] Usando fallback: /andino-wallet-pwa/')
+  console.warn('[Vite Config] Usando fallback: /Ejercito-Reforestador-Wallet/')
 }
 
 // Plugin para transformar rutas en index.html durante el build
@@ -129,11 +127,18 @@ const transformHtmlPlugin = () => {
 export default defineConfig({
   base: basePath,
   server: {
-    host: '0.0.0.0', // Permitir acceso desde la red local
+    host: '0.0.0.0', // Red local + túnel Cloudflare
     port: 5173,
-    // Deshabilitar HTTPS para desarrollo (comentar si necesitas HTTPS)
+    // Deshabilitar HTTPS local: el túnel Cloudflare ya termina TLS en el borde
     // https: httpsConfig || undefined,
     strictPort: true,
+    // Permite Host: *.trycloudflare.com (y otros) sin bloquear el request
+    allowedHosts: true,
+    // HMR detrás de Cloudflare (usa el Host de la página; TLS en :443)
+    hmr: {
+      protocol: 'wss',
+      clientPort: 443,
+    },
   },
   plugins: [
     react(),
@@ -193,11 +198,11 @@ export default defineConfig({
         ]
       },
       manifest: {
-        name: 'Andino Wallet',
-        short_name: 'Andino Wallet',
-        description: 'Wallet especializada para montañistas con bitácoras, emergencias y gestión blockchain',
-        theme_color: '#0477BF',
-        background_color: '#ffffff',
+        name: 'Ejército Reforestador',
+        short_name: 'Reforestador',
+        description: 'Wallet de campo para jornadas de reforestación, siembras firmadas e impacto verificable',
+        theme_color: '#2D6A4F',
+        background_color: '#081C15',
         display: 'standalone',
         orientation: 'any',
         start_url: getBase(),

@@ -9,15 +9,13 @@ import {
   Network,
   Users,
   FileText,
-  Plane,
-  Heart,
-  Award,
-  Mountain,
+  Trees,
   Settings,
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Home', href: '/', icon: Home },
+  { name: 'Inicio', href: '/', icon: Home },
+  { name: 'Jornadas', href: '/jornadas', icon: Trees },
   { name: 'Cuentas', href: '/accounts', icon: Wallet },
   { name: 'Enviar', href: '/send', icon: Send },
   { name: 'Recibir', href: '/receive', icon: QrCode },
@@ -25,10 +23,6 @@ const navigation = [
   { name: 'Redes', href: '/networks', icon: Network },
   { name: 'Contactos', href: '/contacts', icon: Users },
   { name: 'Documentos', href: '/documents', icon: FileText },
-  { name: 'Flight Logs', href: '/flight-logs', icon: Plane },
-  { name: 'Bitácoras de Montañismo', href: '/mountain-logs', icon: Mountain },
-  { name: 'Expedientes Médicos', href: '/medical-records', icon: Heart },
-  { name: 'Atestaciones', href: '/attestations', icon: Award },
   { name: 'Configuración', href: '/settings', icon: Settings },
 ]
 
@@ -49,7 +43,7 @@ export function Sidebar() {
                   'group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
                   isActive
                     ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                    : 'text-muted-foreground hover:bg-primary/10 hover:text-foreground'
                 )}
               >
                 <item.icon

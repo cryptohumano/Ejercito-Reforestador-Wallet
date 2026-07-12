@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useKeyringContext } from '@/contexts/KeyringContext'
 import { useState } from 'react'
 import Identicon from '@polkadot/react-identicon'
+import { shortenAddress } from '@/utils/address'
 import { Avatar } from '@/components/ui/avatar'
 
 export default function Accounts() {
@@ -17,9 +18,6 @@ export default function Accounts() {
     setTimeout(() => setCopiedAddress(null), 2000)
   }
 
-  const formatAddress = (address: string) => {
-    return `${address.slice(0, 10)}...${address.slice(-10)}`
-  }
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -78,7 +76,7 @@ export default function Accounts() {
                       <Identicon
                         value={account.address}
                         size={40}
-                        theme="polkadot"
+                        theme="ethereum"
                       />
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -89,7 +87,7 @@ export default function Accounts() {
                       </div>
                       <div className="flex items-center gap-2">
                         <code className="text-xs text-muted-foreground font-mono">
-                          {formatAddress(account.address)}
+                          {shortenAddress(account.address, 6)}
                         </code>
                         <Button
                           variant="ghost"

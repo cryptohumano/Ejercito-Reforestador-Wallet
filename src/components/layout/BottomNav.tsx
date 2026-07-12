@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
-import { Home, Wallet, Send, FileText, Settings, Menu, X, Mountain, AlertTriangle } from 'lucide-react'
+import { Home, Wallet, Send, FileText, Settings, Menu, X, Trees } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -16,9 +16,8 @@ import { BalanceDisplay } from '@/components/BalanceDisplay'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 const navigation = [
-  { name: 'Inicio', href: '/', icon: Home, description: 'Bitácoras activas y emergencias' },
-  { name: 'Bitácoras', href: '/mountain-logs', icon: Mountain, description: 'Registrar expediciones de montañismo' },
-  { name: 'Emergencias', href: '/emergencies', icon: AlertTriangle, description: 'Ver y gestionar emergencias' },
+  { name: 'Inicio', href: '/', icon: Home, description: 'Jornada activa y siembras' },
+  { name: 'Jornadas', href: '/jornadas', icon: Trees, description: 'Forestación y siembras' },
   { name: 'Documentos', href: '/documents', icon: FileText, description: 'Gestionar documentos' },
   { name: 'Cuentas', href: '/accounts', icon: Wallet, description: 'Gestionar tus cuentas' },
   { name: 'Enviar', href: '/send', icon: Send, description: 'Enviar tokens' },

@@ -104,7 +104,7 @@ export function WebAuthnCredentialsManager() {
       const credential = await registerWebAuthnCredential(
         userIdHex,
         userName || 'Usuario',
-        userName || 'Usuario de Andino Wallet',
+        userName || 'Usuario de Ejército Reforestador',
         credentialName || undefined
       )
 

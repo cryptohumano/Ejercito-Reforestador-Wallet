@@ -3,7 +3,7 @@ import { useKeyring } from '@/hooks/useKeyring'
 import type { KeyringAccount } from '@/hooks/useKeyring'
 
 interface KeyringContextType {
-  keyring: ReturnType<typeof useKeyring>['keyring']
+  keyring: null
   isReady: boolean
   accounts: KeyringAccount[]
   isUnlocked: boolean
@@ -13,9 +13,28 @@ interface KeyringContextType {
   unlock: (password: string) => Promise<boolean>
   unlockWithWebAuthn: (credentialId: string) => Promise<boolean>
   lock: () => void
-  addFromMnemonic: (mnemonic: string, name?: string, type?: 'sr25519' | 'ed25519' | 'ecdsa', password?: string) => Promise<KeyringAccount | null>
-  addFromUri: (uri: string, name?: string, type?: 'sr25519' | 'ed25519' | 'ecdsa', password?: string) => Promise<KeyringAccount | null>
-  addFromJson: (jsonData: object, jsonPassword: string, password?: string) => Promise<KeyringAccount | null>
+  addFromMnemonic: (
+    mnemonic: string,
+    name?: string,
+    typeOrPassword?: string,
+    password?: string
+  ) => Promise<KeyringAccount | null>
+  addFromPrivateKey: (
+    privateKey: string,
+    name?: string,
+    password?: string
+  ) => Promise<KeyringAccount | null>
+  addFromUri: (
+    uri: string,
+    name?: string,
+    type?: string,
+    password?: string
+  ) => Promise<KeyringAccount | null>
+  addFromJson: (
+    jsonData: object,
+    jsonPassword: string,
+    password?: string
+  ) => Promise<KeyringAccount | null>
   removeAccount: (address: string) => Promise<boolean>
   getAccount: (address: string) => KeyringAccount | undefined
   setSS58Format: (format: number) => void
@@ -42,4 +61,3 @@ export function useKeyringContext() {
   }
   return context
 }
-

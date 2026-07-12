@@ -68,8 +68,8 @@ export async function verifyDocument(document: Document): Promise<VerificationRe
         case 'substrate':
           signatureValid = await verifySubstrateSignature(document, signature)
           signatureMessage = signatureValid
-            ? 'Firma Substrate válida'
-            : 'Firma Substrate inválida o hash no coincide'
+            ? 'Firma Ethereum válida'
+            : 'Firma Ethereum inválida o hash no coincide'
           break
 
         case 'x509':
@@ -173,8 +173,8 @@ export async function verifySignature(
       return {
         valid,
         message: valid
-          ? 'Firma Substrate válida'
-          : 'Firma Substrate inválida',
+          ? 'Firma Ethereum válida'
+          : 'Firma Ethereum inválida',
       }
 
     case 'autographic':

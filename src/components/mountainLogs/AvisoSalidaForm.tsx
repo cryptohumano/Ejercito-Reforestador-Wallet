@@ -274,7 +274,7 @@ export function AvisoSalidaForm({ log, onUpdate, onComplete }: AvisoSalidaFormPr
                               <Identicon
                                 value={account.address}
                                 size={16}
-                                theme="polkadot"
+                                theme="ethereum"
                               />
                               <span>{account.meta.name || 'Sin nombre'}</span>
                             </div>
@@ -290,7 +290,7 @@ export function AvisoSalidaForm({ log, onUpdate, onComplete }: AvisoSalidaFormPr
                         <Identicon
                           value={account.address}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <div className="flex flex-col">
                           <span className="font-medium">
@@ -331,7 +331,7 @@ export function AvisoSalidaForm({ log, onUpdate, onComplete }: AvisoSalidaFormPr
                     <Identicon
                       value={account.address}
                       size={20}
-                      theme="polkadot"
+                      theme="ethereum"
                     />
                     <div className="flex flex-col">
                       <span className="font-medium text-sm">

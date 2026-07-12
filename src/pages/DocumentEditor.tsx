@@ -266,7 +266,7 @@ export default function DocumentEditor() {
                         <Identicon
                           value={selectedAccount}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <span>
                           {accounts.find(a => a.address === selectedAccount)?.meta?.name || 
@@ -283,7 +283,7 @@ export default function DocumentEditor() {
                         <Identicon
                           value={account.address}
                           size={16}
-                          theme="polkadot"
+                          theme="ethereum"
                         />
                         <div className="flex flex-col">
                           <span className="font-medium">

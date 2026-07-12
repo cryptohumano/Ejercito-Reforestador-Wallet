@@ -81,7 +81,7 @@ export function AccountInfo({ client }: AccountInfoProps) {
                 <Identicon
                   value={address}
                   size={48}
-                  theme="polkadot"
+                  theme="ethereum"
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium mb-1">Dirección</p>

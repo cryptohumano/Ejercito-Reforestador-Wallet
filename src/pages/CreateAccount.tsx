@@ -5,19 +5,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useKeyringContext } from '@/contexts/KeyringContext'
 import { ArrowLeft, Copy, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
-
-type CryptoType = 'sr25519' | 'ed25519' | 'ecdsa'
 
 export default function CreateAccount() {
   const navigate = useNavigate()
   const { generateMnemonic, addFromMnemonic, isUnlocked } = useKeyringContext()
   const [step, setStep] = useState<'form' | 'backup' | 'password'>('form')
   const [name, setName] = useState('')
-  const [type, setType] = useState<CryptoType>('sr25519')
   const [mnemonic, setMnemonic] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -72,7 +68,7 @@ export default function CreateAccount() {
 
     setLoading(true)
     try {
-      const account = await addFromMnemonic(mnemonic, name, type, password)
+      const account = await addFromMnemonic(mnemonic, name, password)
       if (account) {
         navigate('/accounts')
       } else {
@@ -97,7 +93,7 @@ export default function CreateAccount() {
           <div>
             <h1 className="text-3xl font-bold">Crear Nueva Cuenta</h1>
             <p className="text-muted-foreground mt-1">
-              Genera una nueva cuenta con una frase de recuperación
+              Genera una nueva cuenta Ethereum (secp256k1 / BIP-39)
             </p>
           </div>
         </div>
@@ -120,29 +116,11 @@ export default function CreateAccount() {
               />
             </div>
 
-            <div className="space-y-3">
-              <Label>Tipo de Criptografía</Label>
-              <RadioGroup value={type} onValueChange={(v) => setType(v as CryptoType)}>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="sr25519" id="sr25519" />
-                  <Label htmlFor="sr25519" className="font-normal cursor-pointer">
-                    sr25519 (Schnorrkel) - Recomendado para Substrate
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="ed25519" id="ed25519" />
-                  <Label htmlFor="ed25519" className="font-normal cursor-pointer">
-                    ed25519 (Edwards) - Alternativa común
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="ecdsa" id="ecdsa" />
-                  <Label htmlFor="ecdsa" className="font-normal cursor-pointer">
-                    ecdsa - Compatible con Ethereum
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
+            <Alert>
+              <AlertDescription>
+                Las cuentas se derivan con ruta HD <code className="text-xs">m/44&apos;/60&apos;/0&apos;/0/0</code> (Ethereum).
+              </AlertDescription>
+            </Alert>
 
             <Button onClick={handleGenerate} className="w-full" size="lg">
               Generar Nueva Cuenta

@@ -16,15 +16,16 @@ const STORE_NAME = 'encrypted-accounts'
 const WEBAUTHN_STORE_NAME = 'webauthn-credentials'
 
 export interface EncryptedAccount {
-  address: string // Clave primaria (keyPath)
-  encryptedData: string // JSON encriptado con la clave privada (seed/mnemonic)
-  publicKey: string // Public key en hex
-  type?: 'sr25519' | 'ed25519' | 'ecdsa' // Tipo de criptografía
-  ethereumAddress?: string // Dirección Ethereum derivada (opcional)
+  address: string // Clave primaria (keyPath) — dirección Ethereum 0x…
+  encryptedData: string // JSON encriptado con mnemonic y/o privateKey
+  publicKey: string // Public key en hex (0x…)
+  /** Curva Ethereum (secp256k1). Valores legacy Substrate se ignoran al cargar. */
+  type?: 'secp256k1' | 'sr25519' | 'ed25519' | 'ecdsa'
+  ethereumAddress?: string // Alias de address (compat)
   meta: {
     name?: string
-    tags?: string[] // Etiquetas para organización
-    notes?: string // Notas del usuario
+    tags?: string[]
+    notes?: string
     [key: string]: any
   }
   createdAt: number
@@ -151,7 +152,9 @@ export async function clearAllAccounts(): Promise<void> {
 /**
  * Buscar cuentas por tipo de criptografía usando el índice
  */
-export async function getAccountsByType(type: 'sr25519' | 'ed25519' | 'ecdsa'): Promise<EncryptedAccount[]> {
+export async function getAccountsByType(
+  type: 'secp256k1' | 'sr25519' | 'ed25519' | 'ecdsa'
+): Promise<EncryptedAccount[]> {
   const db = await openDB()
   return new Promise((resolve, reject) => {
     const transaction = db.transaction([STORE_NAME], 'readonly')

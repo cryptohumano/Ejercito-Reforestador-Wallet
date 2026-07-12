@@ -4,8 +4,8 @@
  * (emite evento System.Remarked para facilitar la escucha)
  */
 
-import { DedotClient } from 'dedot'
-import type { KeyringPair } from '@polkadot/keyring/types'
+import type { PublicClient } from 'viem'
+import type { LocalAccount } from 'viem'
 import type { 
   Emergency, 
   CreateEmergencyData, 
@@ -164,183 +164,22 @@ export function prepareEmergencyRemarkData(
 }
 
 /**
- * Envía una emergencia a blockchain usando system.remarkWithEvent
- * Este método emite un evento System.Remarked que facilita la escucha
- * y monitoreo de emergencias en la blockchain
+ * Envío on-chain de emergencias.
+ * Pendiente de cliente EVM (viem); hoy solo deja la emergencia en local.
  */
 export async function submitEmergencyToBlockchain(
-  client: DedotClient,
-  pair: KeyringPair,
+  _client: PublicClient | null,
+  _account: LocalAccount,
   emergency: Emergency,
-  logData?: Parameters<typeof prepareEmergencyRemarkData>[1]
+  _logData?: Parameters<typeof prepareEmergencyRemarkData>[1]
 ): Promise<EmergencySubmissionResult> {
-  // PROTECCIÓN: Verificar que la emergencia no haya sido enviada ya
-  if (emergency.blockchainTxHash) {
-    console.warn('[EmergencyService] ⚠️ Emergencia ya enviada anteriormente:', {
-      emergencyId: emergency.emergencyId,
-      txHash: emergency.blockchainTxHash,
-      blockNumber: emergency.blockchainBlockNumber,
-    })
-    return {
-      success: true,
-      txHash: emergency.blockchainTxHash,
-      blockNumber: emergency.blockchainBlockNumber,
-      extrinsicIndex: emergency.blockchainExtrinsicIndex,
-    }
-  }
-
-  // PROTECCIÓN: Verificar que no esté en estado submitted
-  if (emergency.status === 'submitted' && emergency.submittedAt) {
-    console.warn('[EmergencyService] ⚠️ Emergencia ya está en estado submitted:', {
-      emergencyId: emergency.emergencyId,
-      status: emergency.status,
-      submittedAt: emergency.submittedAt,
-    })
-    return {
-      success: true,
-      txHash: emergency.blockchainTxHash,
-      blockNumber: emergency.blockchainBlockNumber,
-      extrinsicIndex: emergency.blockchainExtrinsicIndex,
-    }
-  }
-
-  try {
-    // Preparar datos del remark (incluye datos de bitácora si están disponibles)
-    const remarkData = prepareEmergencyRemarkData(emergency, logData)
-    
-    // Importar función de serialización
-    const { serializeEmergencyToRemark } = await import('@/types/emergencies')
-    
-    // Serializar a formato remark
-    let remarkString = serializeEmergencyToRemark(remarkData)
-    
-    console.log('[EmergencyService] Enviando emergencia a blockchain:', {
-      emergencyId: emergency.emergencyId,
-      type: emergency.type,
-      severity: emergency.severity,
-      remarkLength: remarkString.length,
-      // Datos incluidos en el remark
-      datosIncluidos: {
-        gps: {
-          lat: remarkData.location.latitude,
-          lon: remarkData.location.longitude,
-          alt: remarkData.location.altitude,
-          accuracy: remarkData.location.accuracy,
-        },
-        descripcion: remarkData.description.substring(0, 50) + '...',
-        tieneMetadata: !!remarkData.metadata,
-        metadataKeys: remarkData.metadata ? Object.keys(remarkData.metadata) : [],
-        tieneBitacora: !!(remarkData.metadata?.logTitle || remarkData.metadata?.mountainName),
-        tieneAvisoSalida: !!remarkData.metadata?.avisoSalida,
-        tieneTrail: !!remarkData.metadata?.trail,
-        tieneMilestone: !!remarkData.metadata?.milestone,
-      },
-      // Preview del remark (primeros 200 caracteres)
-      remarkPreview: remarkString.substring(0, 200) + '...',
-    })
-    
-    // Verificar que el remark no sea demasiado largo
-    // Los remarks en Substrate tienen un límite (típicamente 32KB)
-    // Si excede, reducir metadata progresivamente
-    const MAX_REMARK_SIZE = 30000 // Dejar margen de seguridad
-    
-    if (remarkString.length > MAX_REMARK_SIZE) {
-      console.warn('[EmergencyService] ⚠️ Remark demasiado largo, reduciendo metadata...', {
-        originalLength: remarkString.length,
-        maxSize: MAX_REMARK_SIZE,
-      })
-      
-      // Intentar reducir metadata si es necesario
-      if (remarkData.metadata) {
-        // Eliminar datos menos críticos primero
-        const reducedMetadata = { ...remarkData.metadata }
-        delete reducedMetadata.trail
-        delete reducedMetadata.milestone
-        if (reducedMetadata.avisoSalida) {
-          // Mantener solo datos esenciales del aviso de salida
-          reducedMetadata.avisoSalida = {
-            lugarDestino: reducedMetadata.avisoSalida.lugarDestino,
-            numeroParticipantes: reducedMetadata.avisoSalida.numeroParticipantes,
-            fechaSalida: reducedMetadata.avisoSalida.fechaSalida,
-          }
-        }
-        
-        remarkData.metadata = reducedMetadata
-        remarkString = serializeEmergencyToRemark(remarkData)
-        
-        // Si aún es demasiado largo, reducir más
-        if (remarkString.length > MAX_REMARK_SIZE) {
-          // Eliminar más metadata
-          delete reducedMetadata.avisoSalida
-          remarkData.metadata = reducedMetadata
-          remarkString = serializeEmergencyToRemark(remarkData)
-        }
-        
-        // Si aún es demasiado largo después de reducir, lanzar error
-        if (remarkString.length > MAX_REMARK_SIZE) {
-          throw new Error(`El remark es demasiado largo (${remarkString.length} bytes). Reduce la descripción.`)
-        }
-        
-        console.log('[EmergencyService] ✅ Remark reducido a:', remarkString.length, 'bytes')
-      } else {
-        throw new Error(`El remark es demasiado largo (${remarkString.length} bytes). Reduce la descripción.`)
-      }
-    }
-    
-    // Crear transacción system.remarkWithEvent (emite evento System.Remarked)
-    const tx = client.tx.system.remarkWithEvent(remarkString)
-    
-    // Firmar y enviar usando el mismo patrón que Send.tsx
-    let txHash: string | undefined
-    let blockNumber: number | undefined
-    let extrinsicIndex: number | undefined
-    
-    const result = await tx.signAndSend(
-      pair,
-      {}, // Opciones del signer (vacías por defecto)
-      async (result) => {
-        // Callback para actualizaciones de estado
-        const { status } = result
-        txHash = result.txHash
-        
-        if (status.type === 'BestChainBlockIncluded' || status.type === 'Finalized') {
-          if (status.type === 'Finalized') {
-            blockNumber = status.value.blockNumber
-            extrinsicIndex = status.value.extrinsicIndex
-          }
-        }
-      }
-    ).untilFinalized()
-    
-    // Obtener información final
-    txHash = result.txHash
-    if (result.status.type === 'Finalized') {
-      blockNumber = result.status.value.blockNumber
-      extrinsicIndex = result.status.value.extrinsicIndex
-    }
-    
-    console.log('[EmergencyService] ✅ Emergencia enviada exitosamente:', {
-      emergencyId: emergency.emergencyId,
-      txHash,
-      blockNumber,
-      extrinsicIndex,
-    })
-    
-    return {
-      success: true,
-      txHash,
-      blockNumber,
-      extrinsicIndex,
-    }
-  } catch (error) {
-    console.error('[EmergencyService] ❌ Error al enviar emergencia:', error)
-    
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
-    
-    return {
-      success: false,
-      error: errorMessage,
-    }
+  console.warn('[EmergencyService] Envío on-chain diferido (migración Ethereum/viem)', {
+    emergencyId: emergency.emergencyId,
+  })
+  return {
+    success: false,
+    error:
+      'Envío on-chain de emergencias pendiente: wallet Ethereum (viem). La emergencia quedó guardada en local.',
   }
 }
 

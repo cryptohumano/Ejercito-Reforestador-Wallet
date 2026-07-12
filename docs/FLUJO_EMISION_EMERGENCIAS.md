@@ -2,7 +2,7 @@
 
 ## 📋 Resumen
 
-Este documento explica paso a paso cómo funciona el sistema de emisión de emergencias en Andino Wallet, desde que el usuario presiona el botón hasta que la emergencia se registra en la blockchain.
+Este documento explica paso a paso cómo funciona el sistema de emisión de emergencias en MST-Wallet, desde que el usuario presiona el botón hasta que la emergencia se registra en la blockchain.
 
 ## 🔄 Flujo Completo
 

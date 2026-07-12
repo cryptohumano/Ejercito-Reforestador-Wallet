@@ -20,6 +20,9 @@ import Attestations from '@/pages/Attestations'
 import MountainLogs from '@/pages/MountainLogs'
 import MountainLogDetail from '@/pages/MountainLogDetail'
 import Emergencies from '@/pages/Emergencies'
+import Jornadas from '@/pages/Jornadas'
+import JornadaDetail from '@/pages/JornadaDetail'
+import RegisterSiembra from '@/pages/RegisterSiembra'
 import Settings from '@/pages/Settings'
 import Identity from '@/pages/Identity'
 import SeedMountainLogs from '@/pages/SeedMountainLogs'
@@ -119,6 +122,23 @@ export const router = createBrowserRouter([
       {
         path: 'attestations',
         element: <Attestations />,
+      },
+      {
+        path: 'jornadas',
+        children: [
+          {
+            index: true,
+            element: <Jornadas />,
+          },
+          {
+            path: ':jornadaId',
+            element: <JornadaDetail />,
+          },
+          {
+            path: ':jornadaId/siembra',
+            element: <RegisterSiembra />,
+          },
+        ],
       },
       {
         path: 'mountain-logs',

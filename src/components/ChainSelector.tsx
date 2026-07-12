@@ -1,4 +1,4 @@
-import { DEFAULT_CHAINS, type ChainInfo } from '@/hooks/useDedotClient'
+import { DEFAULT_CHAINS, type ChainInfo } from '@/config/chains'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -15,28 +15,31 @@ export function ChainSelector({ selectedChain, onSelectChain, isConnecting }: Ch
       <CardHeader>
         <CardTitle>Seleccionar Red</CardTitle>
         <CardDescription>
-          Elige una red de Polkadot para explorar
+          Ethereum, Base y Arbitrum (mainnet y testnet)
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {DEFAULT_CHAINS.map((chain) => (
             <Button
-              key={chain.endpoint}
-              variant={selectedChain?.endpoint === chain.endpoint ? "default" : "outline"}
+              key={chain.id}
+              variant={selectedChain?.id === chain.id ? 'default' : 'outline'}
               onClick={() => onSelectChain(chain)}
               disabled={isConnecting}
               className="h-auto py-4 flex flex-col items-start"
             >
-              <div className="flex items-center justify-between w-full">
+              <div className="flex items-center justify-between w-full gap-2">
                 <span className="font-semibold">{chain.name}</span>
-                {selectedChain?.endpoint === chain.endpoint && (
-                  <Badge variant="secondary">Conectado</Badge>
-                )}
+                <div className="flex gap-1">
+                  {chain.testnet && <Badge variant="outline">test</Badge>}
+                  {selectedChain?.id === chain.id && (
+                    <Badge variant="secondary">Conectado</Badge>
+                  )}
+                </div>
               </div>
               {chain.description && (
                 <span className="text-xs text-muted-foreground mt-1 text-left">
-                  {chain.description}
+                  {chain.description} · chainId {chain.chainId}
                 </span>
               )}
             </Button>
@@ -46,4 +49,3 @@ export function ChainSelector({ selectedChain, onSelectChain, isConnecting }: Ch
     </Card>
   )
 }
-

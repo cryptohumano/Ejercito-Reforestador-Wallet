@@ -59,7 +59,7 @@ export function AvisoSalidaView({ avisoSalida, relatedAccount }: AvisoSalidaView
                     <Identicon
                       value={account.address}
                       size={20}
-                      theme="polkadot"
+                      theme="ethereum"
                     />
                     <div className="flex flex-col">
                       <span className="font-medium text-sm">

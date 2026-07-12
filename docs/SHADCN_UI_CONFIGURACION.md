@@ -1,4 +1,4 @@
-# Configuración shadcn/ui - Andino Wallet
+# Configuración shadcn/ui - MST-Wallet
 
 ## ✅ Estado Actual
 

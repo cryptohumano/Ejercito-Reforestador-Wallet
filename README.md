@@ -1,10 +1,10 @@
-# Andino Wallet
+# MST-Wallet
 
 Una Progressive Web App (PWA) especializada para montañistas, diseñada para gestionar cuentas blockchain, bitácoras de montañismo, emergencias y documentación de expediciones en redes Polkadot/Substrate.
 
 ## 🏔️ Para Montañistas
 
-Andino Wallet es tu compañero digital en la montaña. Gestiona tus expediciones, registra tus aventuras, mantén tus documentos seguros y activa emergencias cuando las necesites, todo desde tu dispositivo móvil, incluso sin conexión.
+MST-Wallet es tu compañero digital en la montaña. Gestiona tus expediciones, registra tus aventuras, mantén tus documentos seguros y activa emergencias cuando las necesites, todo desde tu dispositivo móvil, incluso sin conexión.
 
 ## 🚀 Características Principales
 
@@ -144,7 +144,7 @@ La documentación completa está disponible en la carpeta `docs/`:
 
 ### ⚠️ Advertencia Importante
 
-Andino Wallet es una aplicación **no custodial**. Esto significa:
+MST-Wallet es una aplicación **no custodial**. Esto significa:
 
 - **Tú eres el único responsable** de tus claves privadas y fondos
 - **Guarda tu frase de recuperación** en un lugar seguro
@@ -198,4 +198,4 @@ Para preguntas o soporte, por favor abre un issue en el repositorio.
 
 ---
 
-**Andino Wallet** - Tu compañero digital en la montaña 🏔️
+**MST-Wallet** - Tu compañero digital en la montaña 🏔️

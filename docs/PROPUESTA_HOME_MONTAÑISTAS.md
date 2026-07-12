@@ -28,7 +28,7 @@ Reorientar la página de inicio para priorizar las funciones esenciales para mon
 ### 1. Header Hero (Bienvenida)
 ```
 ┌─────────────────────────────────────┐
-│  🏔️ Andino Wallet                   │
+│  🏔️ MST-Wallet                   │
 │  Tu compañero en la montaña         │
 └─────────────────────────────────────┘
 ```

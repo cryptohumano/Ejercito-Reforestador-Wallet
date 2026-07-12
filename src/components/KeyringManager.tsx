@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useKeyringContext } from '@/contexts/KeyringContext'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -7,30 +7,32 @@ import { Badge } from '@/components/ui/badge'
 import { Key, Plus, Trash2, Copy, Check, ExternalLink } from 'lucide-react'
 import type { KeyringAccount } from '@/hooks/useKeyring'
 import Identicon from '@polkadot/react-identicon'
-import { deriveEthereumAddressFromPair } from '@/utils/ethereum'
-
-type CryptoType = 'sr25519' | 'ed25519' | 'ecdsa'
 
 export function KeyringManager() {
-  const { keyring, isReady, accounts, isUnlocked, generateMnemonic, addFromMnemonic, addFromUri, removeAccount } = useKeyringContext()
+  const {
+    isReady,
+    accounts,
+    isUnlocked,
+    generateMnemonic,
+    addFromMnemonic,
+    addFromPrivateKey,
+    addFromUri,
+    removeAccount,
+  } = useKeyringContext()
   const [mnemonic, setMnemonic] = useState('')
-  const [uri, setUri] = useState('')
+  const [privateKey, setPrivateKey] = useState('')
   const [accountName, setAccountName] = useState('')
   const [showMnemonic, setShowMnemonic] = useState(false)
   const [generatedMnemonic, setGeneratedMnemonic] = useState('')
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null)
-  const [cryptoType, setCryptoType] = useState<CryptoType>('sr25519')
-  const [ethereumAddresses, setEthereumAddresses] = useState<Record<string, string | null>>({})
+  const [password, setPassword] = useState('')
 
   const handleGenerateMnemonic = () => {
     const newMnemonic = generateMnemonic()
     setGeneratedMnemonic(newMnemonic)
-    setMnemonic(newMnemonic) // Pasar automáticamente al campo de mnemonic
+    setMnemonic(newMnemonic)
     setShowMnemonic(true)
   }
-
-  const [password, setPassword] = useState('')
-  const [showPasswordInput, setShowPasswordInput] = useState(false)
 
   const handleAddFromMnemonic = async () => {
     if (!mnemonic.trim()) return
@@ -38,27 +40,29 @@ export function KeyringManager() {
       alert('Por favor desbloquea el keyring primero')
       return
     }
-    
-    await addFromMnemonic(mnemonic.trim(), accountName || undefined, cryptoType, password || undefined)
+
+    await addFromMnemonic(mnemonic.trim(), accountName || undefined, password || undefined)
     setMnemonic('')
     setAccountName('')
     setPassword('')
-    setShowPasswordInput(false)
   }
 
-  const handleAddFromUri = async () => {
-    if (!uri.trim()) return
+  const handleAddFromPrivateKey = async () => {
+    if (!privateKey.trim()) return
     if (!isUnlocked) {
       alert('Por favor desbloquea el keyring primero')
       return
     }
-    
+
     const name = accountName.trim() || undefined
-    await addFromUri(uri.trim(), name, cryptoType, password || undefined)
-    setUri('')
+    if (addFromPrivateKey) {
+      await addFromPrivateKey(privateKey.trim(), name, password || undefined)
+    } else {
+      await addFromUri(privateKey.trim(), name, undefined, password || undefined)
+    }
+    setPrivateKey('')
     if (name) setAccountName('')
     setPassword('')
-    setShowPasswordInput(false)
   }
 
   const handleCopyAddress = async (address: string) => {
@@ -66,25 +70,6 @@ export function KeyringManager() {
     setCopiedAddress(address)
     setTimeout(() => setCopiedAddress(null), 2000)
   }
-
-  // Derivar direcciones Ethereum para todas las cuentas
-  useMemo(() => {
-    if (!keyring || accounts.length === 0) return
-
-    const derived: Record<string, string | null> = {}
-    accounts.forEach((account) => {
-      try {
-        const pair = keyring.getPair(account.address)
-        // Intentar derivar desde el pair (funciona si es ECDSA)
-        const ethAddress = deriveEthereumAddressFromPair(pair)
-        derived[account.address] = ethAddress
-      } catch (error) {
-        console.debug(`No se pudo derivar dirección Ethereum para ${account.address}:`, error)
-        derived[account.address] = null
-      }
-    })
-    setEthereumAddresses(derived)
-  }, [accounts, keyring])
 
   if (!isReady) {
     return (
@@ -99,8 +84,6 @@ export function KeyringManager() {
     )
   }
 
-  // Permitir generar mnemonics incluso si no está desbloqueado
-  // Pero mostrar advertencia si no está desbloqueado
   if (!isUnlocked) {
     return (
       <Card>
@@ -111,7 +94,6 @@ export function KeyringManager() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Permitir generar mnemonic incluso sin desbloquear */}
           <div className="space-y-2">
             <Button onClick={handleGenerateMnemonic} variant="outline" className="w-full">
               <Plus className="h-4 w-4 mr-2" />
@@ -127,7 +109,7 @@ export function KeyringManager() {
               </div>
             )}
           </div>
-          
+
           <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               <strong>Para crear cuentas:</strong> Desbloquea el keyring usando el componente "Desbloquear Keyring" arriba.
@@ -145,46 +127,16 @@ export function KeyringManager() {
         <CardHeader>
           <CardTitle>Gestión de Cuentas (Keyring)</CardTitle>
           <CardDescription>
-            Crea y gestiona cuentas usando @polkadot/keyring
+            Crea y gestiona cuentas Ethereum (secp256k1 / viem)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Selector de Tipo de Criptografía */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Tipo de Criptografía</label>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant={cryptoType === 'sr25519' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCryptoType('sr25519')}
-                className="flex-1"
-              >
-                sr25519
-              </Button>
-              <Button
-                type="button"
-                variant={cryptoType === 'ed25519' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCryptoType('ed25519')}
-                className="flex-1"
-              >
-                ed25519
-              </Button>
-              <Button
-                type="button"
-                variant={cryptoType === 'ecdsa' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setCryptoType('ecdsa')}
-                className="flex-1"
-              >
-                ecdsa
-              </Button>
-            </div>
+          <div className="space-y-1">
+            <Badge variant="outline" className="text-xs">
+              secp256k1
+            </Badge>
             <p className="text-xs text-muted-foreground">
-              {cryptoType === 'sr25519' && 'Schnorrkel - Recomendado para Substrate'}
-              {cryptoType === 'ed25519' && 'Edwards - Alternativa común'}
-              {cryptoType === 'ecdsa' && 'ECDSA - Compatible con Ethereum (Moonbeam, etc.)'}
+              Todas las cuentas usan ECDSA secp256k1 (compatible con Ethereum)
             </p>
           </div>
 
@@ -218,8 +170,11 @@ export function KeyringManager() {
                     }
                     setMnemonic(generatedMnemonic)
                     setShowMnemonic(false)
-                    // Crear la cuenta automáticamente
-                    await addFromMnemonic(generatedMnemonic, accountName.trim() || undefined, cryptoType, password || undefined)
+                    await addFromMnemonic(
+                      generatedMnemonic,
+                      accountName.trim() || undefined,
+                      password || undefined
+                    )
                     setMnemonic('')
                     setAccountName('')
                     setGeneratedMnemonic('')
@@ -270,12 +225,12 @@ export function KeyringManager() {
             )}
           </div>
 
-          {/* Agregar desde URI (Substrate URI) */}
+          {/* Agregar desde clave privada */}
           <div className="space-y-2">
             <Input
-              placeholder="Substrate URI (ej: //Alice, //Bob, o mnemonic con derivación)"
-              value={uri}
-              onChange={(e) => setUri(e.target.value)}
+              placeholder="Clave privada hex (0x… o sin prefijo)"
+              value={privateKey}
+              onChange={(e) => setPrivateKey(e.target.value)}
               disabled={!isUnlocked}
             />
             <div className="flex gap-2">
@@ -286,9 +241,13 @@ export function KeyringManager() {
                 className="flex-1"
                 disabled={!isUnlocked}
               />
-              <Button onClick={handleAddFromUri} disabled={!uri.trim() || !isUnlocked} variant="outline">
+              <Button
+                onClick={handleAddFromPrivateKey}
+                disabled={!privateKey.trim() || !isUnlocked}
+                variant="outline"
+              >
                 <Plus className="h-4 w-4 mr-2" />
-                Agregar desde URI
+                Agregar desde clave privada
               </Button>
             </div>
             {isUnlocked && (
@@ -314,7 +273,7 @@ export function KeyringManager() {
           <CardHeader>
             <CardTitle>Cuentas ({accounts.length})</CardTitle>
             <CardDescription>
-              Cuentas agregadas al keyring
+              Cuentas Ethereum agregadas al keyring
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -329,7 +288,7 @@ export function KeyringManager() {
                       <Identicon
                         value={account.address}
                         size={24}
-                        theme="polkadot"
+                        theme="ethereum"
                       />
                       <Key className="h-4 w-4 text-muted-foreground" />
                       <p className="font-medium truncate">
@@ -339,59 +298,29 @@ export function KeyringManager() {
                     <p className="text-sm font-mono break-all text-muted-foreground">
                       {account.address}
                     </p>
-                    {ethereumAddresses[account.address] && (
-                      <div className="mt-1">
-                        <p className="text-xs text-muted-foreground mb-1">Dirección Ethereum:</p>
-                        <div className="flex items-center gap-2">
-                          <p className="text-xs font-mono break-all text-blue-600 dark:text-blue-400">
-                            {ethereumAddresses[account.address]}
-                          </p>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-6 w-6 p-0"
-                            onClick={() => {
-                              if (ethereumAddresses[account.address]) {
-                                handleCopyAddress(ethereumAddresses[account.address]!)
-                                setCopiedAddress(`eth-${account.address}`)
-                                setTimeout(() => setCopiedAddress(null), 2000)
-                              }
-                            }}
-                          >
-                            {copiedAddress === `eth-${account.address}` ? (
-                              <Check className="h-3 w-3" />
-                            ) : (
-                              <Copy className="h-3 w-3" />
-                            )}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-6 w-6 p-0"
-                            onClick={() => {
-                              if (ethereumAddresses[account.address]) {
-                                window.open(`https://etherscan.io/address/${ethereumAddresses[account.address]}`, '_blank')
-                              }
-                            }}
-                            title="Ver en Etherscan"
-                          >
-                            <ExternalLink className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2 mt-1">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-6 w-6 p-0"
+                        onClick={() => {
+                          window.open(`https://etherscan.io/address/${account.address}`, '_blank')
+                        }}
+                        title="Ver en Etherscan"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                      </Button>
+                    </div>
                     <div className="flex gap-2 mt-2">
                       <Badge variant="outline" className="text-xs">
-                        {keyring?.getPair(account.address).type || 'sr25519'}
+                        secp256k1
                       </Badge>
-                      <Badge variant="secondary" className="text-xs">
-                        {account.publicKey.length * 8} bits
+                      <Badge
+                        variant="outline"
+                        className="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300"
+                      >
+                        Ethereum
                       </Badge>
-                      {ethereumAddresses[account.address] && (
-                        <Badge variant="outline" className="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
-                          Ethereum
-                        </Badge>
-                      )}
                     </div>
                   </div>
                   <div className="flex gap-2 ml-4">
@@ -423,4 +352,3 @@ export function KeyringManager() {
     </div>
   )
 }
-

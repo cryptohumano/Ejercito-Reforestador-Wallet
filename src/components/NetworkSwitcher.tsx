@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { DEFAULT_CHAINS, type ChainInfo } from '@/hooks/useDedotClient'
+import { DEFAULT_CHAINS, type ChainInfo } from '@/config/chains'
 import {
   Select,
   SelectContent,
@@ -16,7 +15,11 @@ interface NetworkSwitcherProps {
   isConnecting: boolean
 }
 
-export function NetworkSwitcher({ selectedChain, onSelectChain, isConnecting }: NetworkSwitcherProps) {
+export function NetworkSwitcher({
+  selectedChain,
+  onSelectChain,
+  isConnecting,
+}: NetworkSwitcherProps) {
   return (
     <div className="flex items-center gap-2">
       {isConnecting ? (
@@ -27,27 +30,48 @@ export function NetworkSwitcher({ selectedChain, onSelectChain, isConnecting }: 
         <WifiOff className="h-4 w-4 text-muted-foreground" />
       )}
       <Select
-        value={selectedChain?.endpoint || ''}
-        onValueChange={(endpoint) => {
-          const chain = DEFAULT_CHAINS.find(c => c.endpoint === endpoint)
-          if (chain) {
-            onSelectChain(chain)
-          }
+        value={selectedChain?.id || ''}
+        onValueChange={(id) => {
+          const chain = DEFAULT_CHAINS.find((c) => c.id === id)
+          if (chain) onSelectChain(chain)
         }}
         disabled={isConnecting}
       >
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder="Seleccionar red">
-            {selectedChain ? selectedChain.name : 'Seleccionar red'}
+            {selectedChain ? (
+              <span className="flex items-center gap-1.5 truncate">
+                {selectedChain.name}
+                {selectedChain.testnet && (
+                  <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
+                    test
+                  </Badge>
+                )}
+              </span>
+            ) : (
+              'Seleccionar red'
+            )}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {DEFAULT_CHAINS.map((chain) => (
-            <SelectItem key={chain.endpoint} value={chain.endpoint}>
-              <div className="flex items-center justify-between w-full">
-                <span>{chain.name}</span>
-                {selectedChain?.endpoint === chain.endpoint && (
-                  <Badge variant="secondary" className="ml-2">Activa</Badge>
+            <SelectItem key={chain.id} value={chain.id}>
+              <div className="flex items-center justify-between w-full gap-2">
+                <div className="flex flex-col">
+                  <span>{chain.name}</span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {chain.description}
+                  </span>
+                </div>
+                {chain.testnet && (
+                  <Badge variant="secondary" className="text-[10px]">
+                    testnet
+                  </Badge>
+                )}
+                {selectedChain?.id === chain.id && (
+                  <Badge variant="default" className="ml-1">
+                    Activa
+                  </Badge>
                 )}
               </div>
             </SelectItem>
@@ -57,4 +81,3 @@ export function NetworkSwitcher({ selectedChain, onSelectChain, isConnecting }: 
     </div>
   )
 }
-

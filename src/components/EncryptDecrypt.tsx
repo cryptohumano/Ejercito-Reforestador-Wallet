@@ -9,17 +9,14 @@ import { naclEncrypt, naclDecrypt, randomAsU8a } from '@polkadot/util-crypto'
 import { stringToU8a, u8aToString, u8aToHex, hexToU8a } from '@polkadot/util'
 import Identicon from '@polkadot/react-identicon'
 
-type CryptoType = 'sr25519' | 'ed25519' | 'ecdsa' | 'all'
-
 /**
  * Componente para encriptar y desencriptar mensajes usando NaCl
  * Basado en: https://polkadot.js.org/docs/util-crypto/examples/encrypt-decrypt
  */
 export function EncryptDecrypt() {
-  const { accounts, isUnlocked, keyring } = useKeyringContext()
+  const { accounts, isUnlocked } = useKeyringContext()
   const [selectedAddress, setSelectedAddress] = useState('')
   const [message, setMessage] = useState('')
-  const [cryptoTypeFilter, setCryptoTypeFilter] = useState<CryptoType>('all')
   const [encryptedData, setEncryptedData] = useState<{
     encrypted: Uint8Array
     nonce: Uint8Array
@@ -29,29 +26,14 @@ export function EncryptDecrypt() {
   const [showSecretKey, setShowSecretKey] = useState(false)
   const [copiedItem, setCopiedItem] = useState<string | null>(null)
 
-  // Filtrar cuentas por tipo de criptografía
   const filteredAccounts = useMemo(() => {
-    if (cryptoTypeFilter === 'all' || !keyring) return accounts
-    return accounts.filter((account) => {
-      try {
-        const pair = keyring.getPair(account.address)
-        return pair.type === cryptoTypeFilter
-      } catch {
-        return false
-      }
-    })
-  }, [accounts, cryptoTypeFilter, keyring])
+    return accounts
+  }, [accounts])
 
-  // Obtener el tipo de criptografía de la cuenta seleccionada
   const selectedAccountType = useMemo(() => {
-    if (!selectedAddress || !keyring) return null
-    try {
-      const pair = keyring.getPair(selectedAddress)
-      return pair.type
-    } catch {
-      return null
-    }
-  }, [selectedAddress, keyring])
+    if (!selectedAddress) return null
+    return 'secp256k1'
+  }, [selectedAddress])
 
   const handleEncrypt = () => {
     if (!message.trim() || !selectedAddress) {
@@ -99,7 +81,7 @@ export function EncryptDecrypt() {
         // Intentar como hex sin prefijo
         secret = hexToU8a(`0x${secretKey}`)
       }
-      
+
       // Asegurarse de que tenga 32 bytes (tamaño requerido por NaCl)
       if (secret.length !== 32) {
         // Si no es exactamente 32 bytes, crear un array de 32 bytes
@@ -174,53 +156,11 @@ export function EncryptDecrypt() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Filtro de tipo de criptografía */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Filtrar por Tipo de Criptografía</label>
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant={cryptoTypeFilter === 'all' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setCryptoTypeFilter('all')}
-              className="flex-1"
-            >
-              Todas
-            </Button>
-            <Button
-              type="button"
-              variant={cryptoTypeFilter === 'sr25519' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setCryptoTypeFilter('sr25519')}
-              className="flex-1"
-            >
-              sr25519
-            </Button>
-            <Button
-              type="button"
-              variant={cryptoTypeFilter === 'ed25519' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setCryptoTypeFilter('ed25519')}
-              className="flex-1"
-            >
-              ed25519
-            </Button>
-            <Button
-              type="button"
-              variant={cryptoTypeFilter === 'ecdsa' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setCryptoTypeFilter('ecdsa')}
-              className="flex-1"
-            >
-              ecdsa
-            </Button>
-          </div>
-        </div>
-
         {/* Selección de cuenta */}
         <div className="space-y-2">
           <p className="text-sm font-medium">
-            Seleccionar Cuenta ({filteredAccounts.length} disponible{filteredAccounts.length !== 1 ? 's' : ''})
+            Seleccionar Cuenta ({filteredAccounts.length} disponible
+            {filteredAccounts.length !== 1 ? 's' : ''})
           </p>
           <select
             value={selectedAddress}
@@ -228,31 +168,18 @@ export function EncryptDecrypt() {
             className="w-full p-2 border rounded-md bg-background"
           >
             <option value="">Selecciona una cuenta</option>
-            {filteredAccounts.map((account) => {
-              let accountType = 'unknown'
-              try {
-                if (keyring) {
-                  accountType = keyring.getPair(account.address).type
-                }
-              } catch {}
-              return (
-                <option key={account.address} value={account.address}>
-                  {account.meta.name || 'Sin nombre'} ({accountType}) - {account.address.substring(0, 16)}...
-                </option>
-              )
-            })}
+            {filteredAccounts.map((account) => (
+              <option key={account.address} value={account.address}>
+                {account.meta.name || 'Sin nombre'} (secp256k1) -{' '}
+                {account.address.substring(0, 16)}...
+              </option>
+            ))}
           </select>
           {selectedAddress && (
             <div className="flex items-center gap-2 p-2 border rounded-lg bg-muted/50">
-              <Identicon
-                value={selectedAddress}
-                size={32}
-                theme="polkadot"
-              />
+              <Identicon value={selectedAddress} size={32} theme="ethereum" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-mono truncate">
-                  {selectedAddress}
-                </p>
+                <p className="text-xs font-mono truncate">{selectedAddress}</p>
                 {selectedAccountType && (
                   <Badge variant="outline" className="text-xs mt-1">
                     {selectedAccountType}
@@ -333,11 +260,7 @@ export function EncryptDecrypt() {
                   >
                     {showSecretKey ? 'Ocultar' : 'Mostrar'}
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={generateNewSecret}
-                  >
+                  <Button size="sm" variant="outline" onClick={generateNewSecret}>
                     Generar Nueva
                   </Button>
                 </div>
@@ -362,7 +285,8 @@ export function EncryptDecrypt() {
                 </Button>
               </div>
               <p className="text-xs text-yellow-700 dark:text-yellow-300">
-                Esta clave secreta es necesaria para desencriptar el mensaje. Compártela de forma segura con el destinatario.
+                Esta clave secreta es necesaria para desencriptar el mensaje. Compártela de forma
+                segura con el destinatario.
               </p>
             </div>
           )}
@@ -374,10 +298,9 @@ export function EncryptDecrypt() {
           <Input
             placeholder="Mensaje encriptado (hex)"
             value={encryptedData ? u8aToHex(encryptedData.encrypted) : ''}
-            onChange={(e) => {
+            onChange={() => {
               // Permitir editar manualmente si no hay datos encriptados
               if (!encryptedData) {
-                // Aquí podrías parsear el hex y actualizar encryptedData
                 // Por simplicidad, solo permitimos desencriptar lo que se encriptó
               }
             }}
@@ -411,4 +334,3 @@ export function EncryptDecrypt() {
     </Card>
   )
 }
-

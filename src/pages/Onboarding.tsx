@@ -82,7 +82,7 @@ export default function Onboarding() {
       // Ahora crear la cuenta
       // addFromMnemonic ahora permite crear cuentas cuando no hay cuentas almacenadas
       // incluso si isUnlocked aún no se actualizó en el componente
-      const account = await addFromMnemonic(mnemonic, name, 'sr25519', password)
+      const account = await addFromMnemonic(mnemonic, name, password)
       if (account) {
         // Marcar para redirigir (el useEffect se encargará de la redirección)
         setShouldRedirect(true)
@@ -99,68 +99,66 @@ export default function Onboarding() {
 
   if (step === 'welcome') {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#05C7F2]/10 via-white to-[#F21667]/10 dark:from-[#0477BF]/20 dark:via-slate-900 dark:to-[#F21667]/20">
-        <Card className="w-full max-w-2xl shadow-xl border-2 border-[#0477BF]/20">
+      <div className="min-h-screen flex items-center justify-center p-4 topo-bg">
+        <Card className="w-full max-w-2xl shadow-xl border-2 border-primary/25">
           <CardHeader className="text-center">
-            {/* Logo de Andino Wallet */}
-            <div className="mx-auto mb-6 flex flex-col items-center">
-              <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-[#0477BF] via-[#05C7F2] to-[#F21667] flex items-center justify-center shadow-2xl mb-4 ring-4 ring-[#F2E205]/40 dark:ring-[#F2E205]/20">
+            <div className="mx-auto mb-6 flex flex-col items-center animate-sprout">
+              <div className="w-36 h-36 rounded-full bg-white dark:bg-[#081C15] flex items-center justify-center shadow-2xl mb-4 ring-4 ring-primary/30 overflow-hidden mission-pulse">
                 <img 
-                  src={`${import.meta.env.BASE_URL || '/'}web-app-manifest-192x192.png`} 
-                  alt="Andino Wallet" 
-                  className="w-28 h-28 rounded-2xl"
+                  src={`${import.meta.env.BASE_URL || '/'}logo-ui.png`} 
+                  alt="Ejército Reforestador" 
+                  className="w-full h-full object-cover"
                   onError={(e) => {
-                    // Fallback si no hay logo
                     const target = e.target as HTMLImageElement
                     target.style.display = 'none'
                     const parent = target.parentElement
                     if (parent) {
-                      parent.innerHTML = '<div class="text-white text-4xl font-bold">AW</div>'
+                      parent.innerHTML = '<div class="text-primary text-4xl font-bold font-brand">ER</div>'
                     }
                   }}
                 />
               </div>
               <div className="text-center">
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-[#0477BF] via-[#05C7F2] to-[#F21667] bg-clip-text text-transparent mb-2">
-                  Andino Wallet
+                <h1 className="font-brand text-4xl sm:text-5xl font-bold uppercase brand-gradient-text mb-2 tracking-wide">
+                  Ejército Reforestador
                 </h1>
-                <p className="text-lg font-semibold text-[#0477BF] dark:text-[#05C7F2] mb-1">
-                  Federación de Andinismo de Chile
+                <p className="text-lg font-semibold text-primary mb-1">
+                  Unidad de reforestación
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Tu wallet especializada para montañistas
+                  Wallet de campo para jornadas, siembras y firmas verificables
                 </p>
               </div>
             </div>
-            <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-[#05C7F2]/20 dark:bg-[#0477BF]/30 flex items-center justify-center">
-              <Sparkles className="h-8 w-8 text-[#0477BF] dark:text-[#05C7F2]" />
+            <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center">
+              <Sparkles className="h-8 w-8 text-primary" />
             </div>
-            <CardTitle className="text-3xl">Bienvenido</CardTitle>
+            <CardTitle className="text-3xl font-brand uppercase tracking-wide">Bienvenido</CardTitle>
             <CardDescription className="text-lg mt-2">
-              Tu wallet criptográfica segura y privada para montañistas
+              Tu wallet criptográfica segura para operaciones de reforestación
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid md:grid-cols-3 gap-4">
-              <div className="text-center p-4 rounded-lg border-2 border-[#0477BF]/30 dark:border-[#0477BF]/50 bg-[#05C7F2]/10 dark:bg-[#0477BF]/10">
-                <Wallet className="h-8 w-8 mx-auto mb-2 text-[#0477BF] dark:text-[#05C7F2]" />
-                <h3 className="font-semibold mb-1 text-[#0477BF] dark:text-[#05C7F2]">Segura</h3>
+              <div className="text-center p-4 rounded-lg border-2 border-primary/25 bg-primary/5">
+                <Wallet className="h-8 w-8 mx-auto mb-2 text-primary" />
+                <h3 className="font-semibold mb-1 text-primary">Segura</h3>
                 <p className="text-sm text-muted-foreground">
                   Tus claves privadas nunca salen de tu dispositivo
                 </p>
               </div>
-              <div className="text-center p-4 rounded-lg border-2 border-[#05C7F2]/30 dark:border-[#05C7F2]/50 bg-[#05C7F2]/10 dark:bg-[#05C7F2]/10">
-                <Shield className="h-8 w-8 mx-auto mb-2 text-[#05C7F2] dark:text-[#05C7F2]" />
-                <h3 className="font-semibold mb-1 text-[#0477BF] dark:text-[#05C7F2]">Encriptada</h3>
+              <div className="text-center p-4 rounded-lg border-2 border-primary/25 bg-primary/5">
+                <Shield className="h-8 w-8 mx-auto mb-2 text-primary" />
+                <h3 className="font-semibold mb-1 text-primary">Encriptada</h3>
                 <p className="text-sm text-muted-foreground">
                   Protección con contraseña y WebAuthn
                 </p>
               </div>
-              <div className="text-center p-4 rounded-lg border-2 border-[#F21667]/30 dark:border-[#F21667]/50 bg-[#F21667]/10 dark:bg-[#F21667]/10">
-                <Lock className="h-8 w-8 mx-auto mb-2 text-[#F21667] dark:text-[#F21667]" />
-                <h3 className="font-semibold mb-1 text-[#F21667] dark:text-[#F21667]">Offline</h3>
+              <div className="text-center p-4 rounded-lg border-2 border-accent/30 bg-accent/10">
+                <Lock className="h-8 w-8 mx-auto mb-2 text-accent" />
+                <h3 className="font-semibold mb-1 text-accent">Offline</h3>
                 <p className="text-sm text-muted-foreground">
-                  Funciona completamente sin conexión
+                  Lista para el campo, incluso sin conexión
                 </p>
               </div>
             </div>
@@ -272,7 +270,7 @@ export default function Onboarding() {
             <Alert>
               <Shield className="h-4 w-4" />
               <AlertDescription className="text-sm">
-                <strong>Importante:</strong> Andino Wallet es una aplicación no custodial.
+                <strong>Importante:</strong> Ejército Reforestador es una aplicación no custodial.
                 Tú eres el único responsable de tus claves privadas y fondos. 
                 <ul className="list-disc list-inside mt-2 space-y-1">
                   <li>Guarda tu frase de recuperación (mnemonic) en un lugar seguro</li>

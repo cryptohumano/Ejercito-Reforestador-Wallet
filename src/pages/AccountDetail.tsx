@@ -9,6 +9,7 @@ import { useKeyringContext } from '@/contexts/KeyringContext'
 import { useMultiChainBalances } from '@/hooks/useMultiChainBalances'
 import { formatBalanceForDisplay, getChainSymbol } from '@/utils/balance'
 import Identicon from '@polkadot/react-identicon'
+import { shortenAddress } from '@/utils/address'
 import { Avatar } from '@/components/ui/avatar'
 import { 
   Copy, 
@@ -157,7 +158,7 @@ export default function AccountDetail() {
               <Identicon
                 value={account.address}
                 size={64}
-                theme="polkadot"
+                theme="ethereum"
               />
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -172,8 +173,8 @@ export default function AccountDetail() {
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <code className="text-sm font-mono text-muted-foreground break-all">
-                  {account.address}
+                <code className="text-sm font-mono text-muted-foreground" title={account.address}>
+                  {shortenAddress(account.address, 6)}
                 </code>
                 <Button
                   variant="ghost"

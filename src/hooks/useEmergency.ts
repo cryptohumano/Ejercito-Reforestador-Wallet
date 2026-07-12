@@ -6,10 +6,9 @@ import { useState, useCallback } from 'react'
 import { useNetwork } from '@/contexts/NetworkContext'
 import { useKeyringContext } from '@/contexts/KeyringContext'
 import { toast } from 'sonner'
-import type { 
-  Emergency, 
-  CreateEmergencyData, 
-  EmergencySubmissionResult 
+import type {
+  Emergency,
+  CreateEmergencyData,
 } from '@/types/emergencies'
 import {
   createEmergencyLocal,

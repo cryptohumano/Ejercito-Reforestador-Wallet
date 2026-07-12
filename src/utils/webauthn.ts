@@ -29,7 +29,7 @@ const getRPId = (): string => {
   return hostname
 }
 
-const RP_NAME = 'Andino Wallet'
+const RP_NAME = 'Ejército Reforestador'
 const TIMEOUT = 60000 // 60 segundos (recomendado por MDN)
 const MIN_CHALLENGE_LENGTH = 16 // Mínimo según MDN (usamos 32 para mayor seguridad)
 

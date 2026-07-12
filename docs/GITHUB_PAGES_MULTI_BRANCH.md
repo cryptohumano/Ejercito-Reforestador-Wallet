@@ -31,7 +31,7 @@ usuario.github.io/repositorio/
 Cada proyecto en su propio repositorio:
 
 - `aura-pwa` → `usuario.github.io/aura-pwa`
-- `andino-wallet-pwa` → `usuario.github.io/andino-wallet-pwa` (o dominio personalizado)
+- `MST-Wallet` → `usuario.github.io/MST-Wallet` (o dominio personalizado)
 
 **Ventajas:**
 - ✅ Dominios/URLs completamente separados
@@ -77,7 +77,7 @@ jobs:
           # Deploy a /andino/
 ```
 
-## Recomendación para Andino Wallet
+## Recomendación para MST-Wallet
 
 ### Si quieres mantener todo en un repo:
 
@@ -88,12 +88,12 @@ jobs:
 
 **URLs resultantes:**
 - `usuario.github.io/repositorio/aura/` → Aura PWA
-- `usuario.github.io/repositorio/andino/` → Andino Wallet
+- `usuario.github.io/repositorio/andino/` → MST-Wallet
 
 ### Si prefieres separación completa:
 
 **Crear repositorio privado separado:**
-- `andino-wallet-pwa` (privado)
+- `MST-Wallet` (privado)
 - Despliegue independiente
 - Dominio personalizado opcional
 
@@ -188,7 +188,7 @@ O usar variables de entorno en el workflow:
 
 ## Decisión Final
 
-**Para Andino Wallet, recomiendo:**
+**Para MST-Wallet, recomiendo:**
 
 1. **Si necesitas privacidad** → Repositorio privado separado
 2. **Si es solo para desarrollo/testing** → Subcarpetas en gh-pages

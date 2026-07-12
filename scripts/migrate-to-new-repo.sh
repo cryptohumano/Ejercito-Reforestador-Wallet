@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script para migrar Andino Wallet a un nuevo repositorio privado
+# Script para migrar MST-Wallet a un nuevo repositorio privado
 # Uso: ./scripts/migrate-to-new-repo.sh <nuevo-repo-url>
 
 set -e
@@ -11,11 +11,11 @@ if [ -z "$NEW_REPO_URL" ]; then
     echo "Uso: ./scripts/migrate-to-new-repo.sh <nuevo-repo-url>"
     echo ""
     echo "Ejemplo:"
-    echo "  ./scripts/migrate-to-new-repo.sh https://github.com/tu-usuario/andino-wallet-pwa.git"
+    echo "  ./scripts/migrate-to-new-repo.sh https://github.com/tu-usuario/MST-Wallet.git"
     exit 1
 fi
 
-echo "🚀 Migrando Andino Wallet a nuevo repositorio..."
+echo "🚀 Migrando MST-Wallet a nuevo repositorio..."
 echo "📦 Nuevo repositorio: $NEW_REPO_URL"
 echo ""
 
