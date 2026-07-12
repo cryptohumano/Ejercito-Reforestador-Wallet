@@ -4,13 +4,16 @@
 
 https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
-## Activación (una sola vez)
+## Activación (una sola vez) — obligatorio
 
-1. Abre [Settings → Pages](https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/settings/pages)
-2. En **Build and deployment → Source**, elige **GitHub Actions**
-3. Guarda
+El error `Get Pages site failed / HttpError: Not Found` significa que Pages aún no está habilitado.
 
-Si el ambiente `github-pages` tiene reglas de protección, permite la rama `main` en **Settings → Environments → github-pages**.
+1. Abre: https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/settings/pages  
+2. **Build and deployment → Source** → elige **GitHub Actions**  
+3. Guarda  
+4. Ve a **Actions** → re-ejecuta el último workflow (o haz un push vacío a `main`)
+
+Sin ese paso, `actions/configure-pages` falla aunque el build esté bien.
 
 ## Cómo se despliega
 
