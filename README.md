@@ -87,11 +87,13 @@ npm run build:gh-pages
 
 ### Despliegue (GitHub Pages)
 
-El workflow `.github/workflows/deploy.yml` publica automáticamente en cada push a `main`.
+El workflow publica el build en la rama `gh-pages` en cada push a `main`.
 
-1. En el repo: **Settings → Pages → Source → GitHub Actions**
-2. Haz push a `main` (o ejecuta el workflow manualmente en **Actions**)
+1. Espera el workflow verde en **Actions**
+2. **Settings → Pages → Source → Deploy from a branch → `gh-pages` / (root)**
 3. Sitio: https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
+
+Detalle: [GITHUB_PAGES_DEPLOY.md](./GITHUB_PAGES_DEPLOY.md)
 
 ### Seguridad
 
@@ -187,11 +189,13 @@ npm run build:gh-pages
 
 ### Deploy (GitHub Pages)
 
-The workflow `.github/workflows/deploy.yml` publishes automatically on every push to `main`.
+The workflow publishes the build to the `gh-pages` branch on every push to `main`.
 
-1. In the repo: **Settings → Pages → Source → GitHub Actions**
-2. Push to `main` (or run the workflow manually under **Actions**)
+1. Wait for a green run under **Actions**
+2. **Settings → Pages → Source → Deploy from a branch → `gh-pages` / (root)**
 3. Site: https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
+
+Details: [GITHUB_PAGES_DEPLOY.md](./GITHUB_PAGES_DEPLOY.md)
 
 ### Security
 

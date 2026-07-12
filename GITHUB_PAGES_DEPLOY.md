@@ -4,40 +4,36 @@
 
 https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
-## Activación (una sola vez) — obligatorio
+## Cómo funciona
 
-El error `Get Pages site failed / HttpError: Not Found` significa que Pages aún no está habilitado.
+El workflow publica el build en la rama **`gh-pages`** (vía `peaceiris/actions-gh-pages`).  
+Así se evita el error `Create Pages site failed: Resource not accessible by integration`, porque el `GITHUB_TOKEN` **no puede** crear el sitio Pages por API.
 
-1. Abre: https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/settings/pages  
-2. **Build and deployment → Source** → elige **GitHub Actions**  
-3. Guarda  
-4. Ve a **Actions** → re-ejecuta el último workflow (o haz un push vacío a `main`)
+## Activación (una sola vez)
 
-Sin ese paso, `actions/configure-pages` falla aunque el build esté bien.
+1. Espera a que el workflow en **Actions** termine en verde (crea/actualiza la rama `gh-pages`).
+2. Abre: https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/settings/pages
+3. **Build and deployment → Source** → **Deploy from a branch**
+4. **Branch:** `gh-pages` / `/ (root)`
+5. **Save**
 
-## Cómo se despliega
+En 1–2 minutos el sitio debería responder en la URL de arriba.
 
-El workflow [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml):
-
-- Se dispara en cada push a `main` (también manualmente desde **Actions**)
-- Instala con `npm ci`
-- Construye con `npm run build:gh-pages` (`vite build`)
-- Usa `GITHUB_REPOSITORY` para el base path `/Ejercito-Reforestador-Wallet/`
-- Sube `dist/` con `actions/deploy-pages`
+> No uses “GitHub Actions” como Source con este workflow: la fuente es la rama `gh-pages`.
 
 ## Verificar
 
-1. **Actions** → workflow **Deploy to GitHub Pages** en verde
-2. Abrir https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
+- Rama: https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/tree/gh-pages  
+- Actions: https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/actions  
+- Sitio: https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
 ## Troubleshooting
 
-| Síntoma | Qué revisar |
+| Síntoma | Qué hacer |
 | --- | --- |
-| Workflow no corre | Pages Source = GitHub Actions; push a `main` |
-| 404 en assets | Base path en logs del build; debe ser `/Ejercito-Reforestador-Wallet/` |
-| Deploy rechazado | Environment `github-pages` debe permitir `main` |
-| Build falla en `npm ci` | Asegura que `package-lock.json` esté en el repo |
+| Workflow verde pero 404 en el sitio | Falta el paso Settings → branch `gh-pages` |
+| Workflow falla en Deploy | Settings → Actions → General → Workflow permissions → **Read and write** |
+| Assets 404 | Revisa que el HTML use `/Ejercito-Reforestador-Wallet/` |
 
 ## Build local equivalente
 
