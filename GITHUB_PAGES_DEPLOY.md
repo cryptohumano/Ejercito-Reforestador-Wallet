@@ -1,96 +1,45 @@
-# Guía de Despliegue a GitHub Pages
+# Despliegue en GitHub Pages — Ejército Reforestador Wallet
 
-## Pasos para Desplegar
+## URL
 
-### 1. Habilitar GitHub Pages en tu Repositorio
+https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
-1. Ve a tu repositorio en GitHub: `https://github.com/cryptohumano/aura-pwa`
-2. Ve a **Settings** (Configuración) → **Pages**
-3. En la sección **Source** (Origen), selecciona **GitHub Actions**
-4. Guarda los cambios
+## Activación (una sola vez)
 
-### 2. Hacer Push de tus Cambios
+1. Abre [Settings → Pages](https://github.com/cryptohumano/Ejercito-Reforestador-Wallet/settings/pages)
+2. En **Build and deployment → Source**, elige **GitHub Actions**
+3. Guarda
 
-El workflow está configurado para ejecutarse en las ramas `main` o `master`. Si estás en otra rama (como `documents`), tienes dos opciones:
+Si el ambiente `github-pages` tiene reglas de protección, permite la rama `main` en **Settings → Environments → github-pages**.
 
-#### Opción A: Hacer Merge a main/master
+## Cómo se despliega
 
-```bash
-# Cambiar a la rama main
-git checkout main
+El workflow [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml):
 
-# Hacer merge de documents
-git merge documents
+- Se dispara en cada push a `main` (también manualmente desde **Actions**)
+- Instala con `npm ci`
+- Construye con `npm run build:gh-pages` (`vite build`)
+- Usa `GITHUB_REPOSITORY` para el base path `/Ejercito-Reforestador-Wallet/`
+- Sube `dist/` con `actions/deploy-pages`
 
-# Hacer push
-git push origin main
-```
+## Verificar
 
-#### Opción B: Actualizar el Workflow para usar tu rama
-
-Si quieres desplegar desde la rama `documents`, puedes modificar `.github/workflows/deploy.yml` para agregar `documents` a la lista de ramas:
-
-```yaml
-on:
-  push:
-    branches:
-      - main
-      - master
-      - documents  # Agregar esta línea
-```
-
-### 3. El Despliegue se Ejecutará Automáticamente
-
-Una vez que hagas push:
-
-1. Ve a la pestaña **Actions** en tu repositorio
-2. Verás el workflow "Deploy to GitHub Pages" ejecutándose
-3. Espera a que complete (toma unos minutos)
-
-### 4. Verificar el Despliegue
-
-1. Ve a **Settings** → **Pages** en tu repositorio
-2. Verás la URL de tu sitio: `https://cryptohumano.github.io/aura-pwa/`
-3. El sitio estará disponible después de que el workflow termine
-
-## Configuración Automática
-
-✅ **Base Path**: Se detecta automáticamente según el nombre del repositorio (`aura-pwa`)
-✅ **Manifest**: Se genera automáticamente con las rutas correctas
-✅ **Service Worker**: Se configura automáticamente con el base path correcto
-✅ **Assets**: Todas las rutas se transforman automáticamente durante el build
+1. **Actions** → workflow **Deploy to GitHub Pages** en verde
+2. Abrir https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
 ## Troubleshooting
 
-### El workflow no se ejecuta
+| Síntoma | Qué revisar |
+| --- | --- |
+| Workflow no corre | Pages Source = GitHub Actions; push a `main` |
+| 404 en assets | Base path en logs del build; debe ser `/Ejercito-Reforestador-Wallet/` |
+| Deploy rechazado | Environment `github-pages` debe permitir `main` |
+| Build falla en `npm ci` | Asegura que `package-lock.json` esté en el repo |
 
-- Verifica que GitHub Pages esté habilitado con **GitHub Actions** como fuente
-- Verifica que estés haciendo push a una rama configurada (`main`, `master`, o `documents` si la agregaste)
+## Build local equivalente
 
-### Errores 404 en el sitio
-
-- Verifica que el workflow se haya completado exitosamente
-- Espera unos minutos después del despliegue (puede tomar tiempo propagarse)
-- Verifica que el base path sea correcto en los logs del workflow
-
-### El build falla
-
-- Revisa los logs en **Actions** para ver el error específico
-- Verifica que todas las dependencias estén instaladas correctamente
-- Asegúrate de que `yarn build` funcione localmente
-
-## URL de tu Sitio
-
-Una vez desplegado, tu PWA estará disponible en:
-
+```bash
+NODE_ENV=production \
+GITHUB_REPOSITORY=cryptohumano/Ejercito-Reforestador-Wallet \
+npm run build:gh-pages
 ```
-https://cryptohumano.github.io/aura-pwa/
-```
-
-## Notas Importantes
-
-- El despliegue es automático cada vez que haces push a la rama configurada
-- El base path se detecta automáticamente, no necesitas configurarlo manualmente
-- Los cambios pueden tardar unos minutos en aparecer después del despliegue
-- El Service Worker funcionará correctamente en GitHub Pages
-

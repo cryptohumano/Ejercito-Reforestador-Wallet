@@ -10,7 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="#español">Español</a> · <a href="#english">English</a>
+  <a href="https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/"><strong>Live demo / Demo en vivo</strong></a>
+  · <a href="#español">Español</a> · <a href="#english">English</a>
 </p>
 
 ---
@@ -21,7 +22,8 @@
 
 **Ejército Reforestador Wallet** es una Progressive Web App (PWA) no custodial para unidades de reforestación. Permite gestionar identidad blockchain, registrar jornadas y siembras en campo, firmar evidencias y operar incluso sin conexión.
 
-Repositorio: [cryptohumano/Ejercito-Reforestador-Wallet](https://github.com/cryptohumano/Ejercito-Reforestador-Wallet)
+- Repositorio: [cryptohumano/Ejercito-Reforestador-Wallet](https://github.com/cryptohumano/Ejercito-Reforestador-Wallet)
+- GitHub Pages: [cryptohumano.github.io/Ejercito-Reforestador-Wallet](https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/)
 
 ### Para quién
 
@@ -78,7 +80,18 @@ npm run tunnel:cf -- 5174
 ```bash
 npm run build
 npm run preview
+
+# Build para GitHub Pages (sin bloqueo por tsc)
+npm run build:gh-pages
 ```
+
+### Despliegue (GitHub Pages)
+
+El workflow `.github/workflows/deploy.yml` publica automáticamente en cada push a `main`.
+
+1. En el repo: **Settings → Pages → Source → GitHub Actions**
+2. Haz push a `main` (o ejecuta el workflow manualmente en **Actions**)
+3. Sitio: https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
 ### Seguridad
 
@@ -109,7 +122,8 @@ Las contribuciones son bienvenidas: abre un issue o un pull request en el reposi
 
 **Ejército Reforestador Wallet** (*Reforesting Army Wallet*) is a non-custodial Progressive Web App (PWA) for reforestation units. It helps manage blockchain identity, log planting campaigns and seedlings in the field, sign evidence, and keep working offline.
 
-Repository: [cryptohumano/Ejercito-Reforestador-Wallet](https://github.com/cryptohumano/Ejercito-Reforestador-Wallet)
+- Repository: [cryptohumano/Ejercito-Reforestador-Wallet](https://github.com/cryptohumano/Ejercito-Reforestador-Wallet)
+- GitHub Pages: [cryptohumano.github.io/Ejercito-Reforestador-Wallet](https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/)
 
 ### Who it’s for
 
@@ -166,7 +180,18 @@ npm run tunnel:cf -- 5174
 ```bash
 npm run build
 npm run preview
+
+# GitHub Pages build (skips blocking tsc)
+npm run build:gh-pages
 ```
+
+### Deploy (GitHub Pages)
+
+The workflow `.github/workflows/deploy.yml` publishes automatically on every push to `main`.
+
+1. In the repo: **Settings → Pages → Source → GitHub Actions**
+2. Push to `main` (or run the workflow manually under **Actions**)
+3. Site: https://cryptohumano.github.io/Ejercito-Reforestador-Wallet/
 
 ### Security
 

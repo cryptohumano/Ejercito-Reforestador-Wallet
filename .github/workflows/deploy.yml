@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-      - master
-      - documents
-      - andino
-      - feature/ui-improvements
-      - feature/async-logbook
   workflow_dispatch:
 
 permissions:
@@ -31,51 +26,38 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Setup Corepack
-        run: |
-          corepack enable
-          corepack prepare yarn@4.6.0 --activate
-          echo "✅ Corepack enabled and Yarn 4.6.0 prepared"
-          yarn --version
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: |
           echo "Building with GITHUB_REPOSITORY=${{ github.repository }}"
           echo "Building with NODE_ENV=production"
-          yarn build
+          npm run build:gh-pages
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           NODE_ENV: production
-      
+
       - name: Verify build output
         run: |
           echo "Verifying build output..."
-          if [ -f dist/index.html ]; then
-            echo "✅ dist/index.html exists"
-            echo "Checking for base path in HTML:"
-            # Verificar que tenga algún base path (puede ser /aura-pwa/ o el nombre del repo)
-            if grep -q 'href="/' dist/index.html || grep -q 'src="/' dist/index.html; then
-              echo "✅ Base path found in HTML"
-            else
-              echo "⚠️ Base path NOT found in HTML"
-              echo "HTML content:"
-              head -20 dist/index.html
-              exit 1
-            fi
-            echo "First 20 lines of dist/index.html:"
-            head -20 dist/index.html
-          else
+          if [ ! -f dist/index.html ]; then
             echo "❌ dist/index.html not found"
             exit 1
           fi
+          echo "✅ dist/index.html exists"
+          echo "First 30 lines of dist/index.html:"
+          head -30 dist/index.html
+          if ! grep -q 'Ejercito-Reforestador-Wallet\|assets/' dist/index.html; then
+            echo "⚠️ Unexpected index.html content (missing base/assets)"
+            exit 1
+          fi
+          echo "✅ Build looks ready for GitHub Pages"
 
       - name: Disable Jekyll
         run: |
-          echo "Creating .nojekyll file to disable Jekyll processing..."
           touch dist/.nojekyll
           echo "✅ .nojekyll file created"
 
@@ -97,4 +79,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
